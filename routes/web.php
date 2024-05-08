@@ -1,0 +1,62 @@
+<?php
+
+use App\Http\Controllers\Admin\CartController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\PayController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+/*
+    File::link($target, $link);
+ 
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+Route::get('/', [PaymentController::class, 'index']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+    Route::post('/profile/stripe', [ProfileController::class, 'stripe'])->name('profile.stripe');
+    Route::post('/profile/paypal', [ProfileController::class, 'paypal'])->name('profile.paypal');
+    Route::post('/profile/updateSettings', [ProfileController::class, 'updateSettings'])->name('profile.updateSettings');
+});
+Route::middleware('auth')
+    ->name('admin.')
+    ->prefix('admin')
+    ->group(function () {
+        Route::resource('payment', PaymentController::class);
+        Route::get('payment/copyCreate/{payment}', [PaymentController::class, 'copyCreate'])->name('payment.copyCreate');
+        Route::get('payment/create_success/{payment}', [PaymentController::class, 'create_success'])->name('payment.create_success');
+});
+
+$target = storage_path('app/public');
+$link = public_path('storage');
+
+if (!File::exists($link)) {
+    // Creazione del collegamento simbolico
+}
+
+// Route::post('/api/create-paypal-order', 'PayController@createPayPalOrder');
+Route::get('pay/{token}', [PayController::class, 'show'])->name('pay.show');
+Route::post('pay/stripe/{payment}', [PayController::class, 'stripe'])->name('pay.stripe');
+Route::post('pay/paypal/{payment}', [PayController::class, 'paypal'])->name('pay.paypal');
+Route::post('pay/satispay/{payment}', [PayController::class, 'satispay'])->name('pay.satispay');
+Route::get('success', [PayController::class, 'success'])->name('success');
+
+// Route::get('email/payment_confirmation', [PaymentReceived::class, 'build'])->name(+)
+require __DIR__.'/auth.php';
