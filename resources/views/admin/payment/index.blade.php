@@ -137,7 +137,7 @@
             <div class="col-12 p-0 my-3">
                 {{-- Payment Table --}}
                 <div class="card shadow  p-3">
-                    <div class="table-responsive m-0 table-striped cursor">
+                    <div class=" m-0 table-striped cursor">
                         <table class="table rounded">
                             <thead>
                                 <tr class="">
