@@ -97,9 +97,9 @@ class ProfileController extends Controller
         $private_key = $requestData['private_key'];
 
 
-        $settings['payMethods'][1]['active'] = $active;
-        $settings['payMethods'][1]['publickey'] = $public_key;
-        $settings['payMethods'][1]['privateKey'] = $private_key;
+        $settings['payMethods']['stripe']['active'] = $active;
+        $settings['payMethods']['stripe']['publickey'] = $public_key;
+        $settings['payMethods']['stripe']['privateKey'] = $private_key;
         $orderByValue = $settings['orderBy'] ?? null;
         $orderForValue = $settings['orderFor'] ?? null;
         $orderPerPageValue = $settings['perPage'] ?? null;
@@ -127,10 +127,10 @@ class ProfileController extends Controller
         $client_id = $requestData['PayPalClientId'];
         $client_secret = $requestData['PayPalSecretKey'];
 
-        $settings['payMethods'][0]['active'] = $active;
+        $settings['payMethods']['paypal']['active'] = $active;
  
-        $settings['payMethods'][0]['client_id'] = $client_id;
-        $settings['payMethods'][0]['secret_key'] = $client_secret;
+        $settings['payMethods']['paypal']['client_id'] = $client_id;
+        $settings['payMethods']['paypal']['secret_key'] = $client_secret;
         $orderByValue = $settings['orderBy'] ?? null;
         $orderForValue = $settings['orderFor'] ?? null;
         $orderPerPageValue = $settings['perPage'] ?? null;

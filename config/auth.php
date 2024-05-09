@@ -36,14 +36,15 @@ return [
     */
 
     'guards' => [
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
-        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-            
+        ],
+
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'hash' => true,
         ],
     ],
 
@@ -118,3 +119,5 @@ return [
     'password_timeout' => 10800,
 
 ];
+
+

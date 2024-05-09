@@ -42,10 +42,10 @@ class PayController extends Controller
         $user = $payment->user;
         $settings = json_decode($user->settings, true);
 
-        if ($settings['payMethods'][1]['active'] == 1) {
+        if ($settings['payMethods']['stripe']['active'] == 1) {
             $settings = json_decode($user->settings, true);
 
-            \Stripe\Stripe::setApiKey($settings['payMethods'][1]['privateKey']);
+            \Stripe\Stripe::setApiKey($settings['payMethods']['stripe']['privateKey']);
             $YOUR_DOMAIN = 'https://proxy.cmh.it';
 
             $line_items = [];
@@ -81,13 +81,13 @@ class PayController extends Controller
         $user = $payment->user;
         $settings = json_decode($user->settings, true);
 
-        if ($settings['payMethods'][0]['active'] == 1) {
+        if ($settings['payMethods']['paypal']['active'] == 1) {
             $settings = json_decode($user->settings, true);
 
             $client = new Client();
 
-            $clientId = $settings['payMethods'][0]['client_id'];
-            $clientSecret = $settings['payMethods'][0]['secret_key'];
+            $clientId = $settings['payMethods']['paypal']['client_id'];
+            $clientSecret = $settings['payMethods']['paypal']['secret_key'];
 
             // Effettua la richiesta POST per ottenere il token di autenticazione
             $response = $client->post('https://api.sandbox.paypal.com/v1/oauth2/token', [
@@ -163,7 +163,7 @@ class PayController extends Controller
             $payment->pay_date = now('Europe/Rome');
             $user = $payment->user;
             $settings = json_decode($user->settings, true);
-            if($settings['payMethods'][1]['active'] == 1 && $settings['payMethods'][0]['active'] == 0){
+            if($settings['payMethods']['stripe']['active'] == 1 && $settings['payMethods']['paypal']['active'] == 0){
                 $client = new Client();
                 $settings = json_decode($user->settings, true);
                 $headers = [

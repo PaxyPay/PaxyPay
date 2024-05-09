@@ -13,20 +13,20 @@
                                     <label class="form-check-label" for="flexSwitchCheckpaypal">Enabled</label>
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckpaypal" value="1" name="activePayPal"
-                                        @if ($settings['payMethods'][0]['active'] == 1) checked @endif>
+                                        @if ($settings['payMethods']['paypal']['active'] == 1) checked @endif>
                                 </div>
                             </div>
                             <div>
                                 <div class="mb-3">
                                     <label class="form-label" for="PayPalClientId">Paypal Client Id</label>
                                     <input class="form-control" type="text" id="PayPalClientId"
-                                        value="{{ old('client_id', isset($settings['payMethods'][0]['client_id']) ? $settings['payMethods'][0]['client_id'] : '') }}"
+                                        value="{{ old('client_id', isset($settings['payMethods']['paypal']['client_id']) ? $settings['payMethods']['paypal']['client_id'] : '') }}"
                                         name="PayPalClientId">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="PayPalSecretKey">PayPal Secret</label>
                                     <input class="form-control" type="text" id="PayPalSecretKey"
-                                        value="{{ old('secret_key', isset($settings['payMethods'][0]['secret_key']) ? $settings['payMethods'][0]['secret_key'] : '') }}"
+                                        value="{{ old('secret_key', isset($settings['payMethods']['paypal']['secret_key']) ? $settings['payMethods']['paypal']['secret_key'] : '') }}"
                                         name="PayPalSecretKey">
                                 </div>
                                 <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">Save</button>
@@ -44,20 +44,20 @@
                                     <label class="form-check-label" for="flexSwitchCheckStripe">Enabled</label>
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckStripe" value="1" name="active"
-                                        @if ($settings['payMethods'][1]['active'] == 1) checked @endif>
+                                        @if ($settings['payMethods']['stripe']['active'] == 1) checked @endif>
                                 </div>
                             </div>
                             <div>
                                 <div class="mb-3">
                                     <label class="form-label" for="stripePublicKey">Stripe Public Key</label>
                                     <input class="form-control" type="text" id="stripePublicKey"
-                                        value="{{ old('public_key', isset($settings['payMethods'][1]['publickey']) ? $settings['payMethods'][1]['publickey'] : '') }}"
+                                        value="{{ old('public_key', isset($settings['payMethods']['stripe']['publickey']) ? $settings['payMethods']['stripe']['publickey'] : '') }}"
                                         name="public_key">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="stripeSecretKey">Stripe Secret Key</label>
                                     <input class="form-control" type="text" id="stripeSecretKey"
-                                        value="{{ old('private_key', isset($settings['payMethods'][1]['privateKey']) ? $settings['payMethods'][1]['privateKey'] : '') }}"
+                                        value="{{ old('private_key', isset($settings['payMethods']['stripe']['privateKey']) ? $settings['payMethods']['stripe']['privateKey'] : '') }}"
                                         name="private_key">
                                 </div>
                                 <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">Save</button>
@@ -76,20 +76,20 @@
                                     <label class="form-check-label" for="flexSwitchCheckStripe">Enabled</label>
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckStripe" value="1" name="active"
-                                        @if ($settings['payMethods'][0]['active'] == 1) checked @endif>
+                                        @if ($settings['payMethods']['paypal']['active'] == 1) checked @endif>
                                 </div>
                             </div>
                             <div>
                                 <div class="mb-3">
                                     <label class="form-label" for="PayPalClientId">Stripe Public Key</label>
                                     <input class="form-control" type="text" id="PayPalClientId"
-                                        value="{{ old('client_id', isset($settings['payMethods'][0]['client_id']) ? $settings['payMethods'][0]['client_id'] : '') }}"
+                                        value="{{ old('client_id', isset($settings['payMethods']['paypal']['client_id']) ? $settings['payMethods']['paypal']['client_id'] : '') }}"
                                         name="PayPalClientId">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="PayPalSecretKey">Stripe Secret Key</label>
                                     <input class="form-control" type="text" id="PayPalSecretKey"
-                                        value="{{ old('secret_key', isset($settings['payMethods'][0]['secret_key']) ? $settings['payMethods'][0]['secret_key'] : '') }}"
+                                        value="{{ old('secret_key', isset($settings['payMethods']['paypal']['secret_key']) ? $settings['payMethods']['paypal']['secret_key'] : '') }}"
                                         name="PayPalSecretKey">
                                 </div>
                                 <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">Save</button>
