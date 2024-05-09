@@ -6,13 +6,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 // use Laravel\Sanctum\HasApiTokens;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
 
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -50,10 +69,12 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function payments(){
+    public function payments()
+    {
         return $this->hasMany(Payment::class);
     }
-    public function perPage(User $user){
+    public function perPage(User $user)
+    {
         $oggetto = json_decode($user->settings);
         $perPage = $oggetto->perPage;
         $orderByName = $oggetto->orderByName;
@@ -61,7 +82,7 @@ class User extends Authenticatable
         $orderByDueDatet = $oggetto->orderByDueDate;
         $orderByActive = $oggetto->orderByActive;
         $orderByTotalPrice = $oggetto->orderByPrice;
-      
-        return ;
+
+        return;
     }
 }
