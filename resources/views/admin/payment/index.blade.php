@@ -141,8 +141,7 @@
                         <table class="table rounded">
                             <thead>
                                 <tr class="">
-
-                                    <th scope="col" class="cursor">
+                                    <th scope="col " class="cursor">
                                         <a class="{{ $settings['orderBy'] == 'client_name' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
                                             href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'client_name', 'order' => $settings['orderBy'] == 'client_name' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">
                                             Client Name
@@ -155,7 +154,7 @@
                                             @endif
                                         </a>
                                     </th>
-                                    <th scope="col" class="">
+                                    <th scope="col" class="d-none d-md-table-cell">
                                         <a class="{{ $settings['orderBy'] == 'due_date' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
                                             href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'due_date', 'order' => $settings['orderBy'] == 'due_date' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Due
                                             Date
@@ -168,7 +167,7 @@
                                             @endif
                                         </a>
                                     </th>
-                                    <th scope="col" class="">
+                                    <th scope="col" class="d-none d-md-table-cell">
                                         <a class="{{ $settings['orderBy'] == 'created_at' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
                                             href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'created_at', 'order' => $settings['orderBy'] == 'created_at' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Created
                                             at
@@ -232,7 +231,8 @@
                                             {{ $payment->client_name }}
                                         </td>
                                         {{-- Due Date --}}
-                                        <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
+                                        <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'"
+                                            class="d-none d-md-table-cell">
                                             @if ($payment->due_date)
                                                 {{ \Carbon\Carbon::parse($payment->due_date)->format('d/m/Y') }}
                                             @else
@@ -241,22 +241,42 @@
                                         </td>
                                         {{-- Created At --}}
 
-                                        <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
+                                        <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'"
+                                            class="d-none d-md-table-cell">
                                             {{ \Carbon\Carbon::parse($payment->created_at)->format('d/m/Y') }}
                                         </td>
                                         <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
-                                            @if ($payment->active == true)
-                                                <span class="badge bg-success">Enabled</span>
-                                            @else
-                                                <span class="badge bg-danger">Disabled</span>
-                                            @endif
+                                            <div class="d-none d-md-block">
+                                                @if ($payment->active == true)
+                                                    <span class="badge bg-success">Enabled</span>
+                                                @else
+                                                    <span class="badge bg-danger">Disabled</span>
+                                                @endif
+                                            </div>
+                                            <div class="d-md-none">
+                                                @if ($payment->active == true)
+                                                    <i class="fas fa-check-circle text-success"></i>
+                                                @else
+                                                    <i class="fas fa-times-circle text-danger"></i>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
-                                            @if ($payment->status == 'paid')
-                                                <span class="badge bg-success">{{ $payment->status }}</span>
-                                            @else
-                                                <span class="badge bg-danger">{{ $payment->status }}</span>
-                                            @endif
+                                            <div class="d-none d-md-block">
+                                                @if ($payment->status == 'paid')
+                                                    <span class="badge bg-success">{{ $payment->status }}</span>
+                                                @else
+                                                    <span class="badge bg-danger">{{ $payment->status }}</span>
+                                                @endif
+                                            </div>
+
+                                            <div class="d-md-none">
+                                                @if ($payment->status == 'paid')
+                                                    <i class="fas fa-check-circle text-success"></i>
+                                                @else
+                                                    <i class="fas fa-times-circle text-danger"></i>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td class="price-right fw-bold"
                                             onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
@@ -284,7 +304,7 @@
                                                             <i class="fa-solid fa-share-nodes"></i> Share
                                                         </a>
                                                     </li>
-                                                    <li> 
+                                                    <li>
                                                         <a href="{{ route('admin.payment.copyCreate', $payment) }}"
                                                             class="btn btn-primary dropdown-item"><i
                                                                 class="fa-regular fa-clone"></i> Clone
