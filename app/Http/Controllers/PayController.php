@@ -25,7 +25,6 @@ class PayController extends Controller
 {
     public function show($token)
     {
-
         $payment = Payment::where('token', $token)->first();
         $payment->views += 1;
         $payment->save();
@@ -148,9 +147,9 @@ class PayController extends Controller
 
         $paymentId = $request->session()->get('payment_id');
         $payment = Payment::find($paymentId);
-        $payment->status = 'paid';
+   
+
         // dd($payment->status);
-        $payment->save();
         if (isset($user)) {
             $user = $payment->user;
         }
@@ -158,10 +157,11 @@ class PayController extends Controller
         if ($paymentId) {
             $payment = Payment::find($paymentId);
 
-            
-           
-            $payment->pay_date = now('Europe/Rome');
             $user = $payment->user;
+           
+            $payment->status = 'paid';
+            $payment->paid_date = now()->setTimezone('Europe/Rome');;
+         
             $settings = json_decode($user->settings, true);
             if($settings['payMethods']['stripe']['active'] == 1 && $settings['payMethods']['paypal']['active'] == 0){
                 $client = new Client();
@@ -187,7 +187,7 @@ class PayController extends Controller
                 $customer_email = $customerDetails->customer_details->email;
                 $payment->customer_email = $customer_email;
                 $payment->customer_name = $customer_name;
-    
+                $payment->save();
                
     
                 Mail::to($user->email)->send(new PaymentReceived($payment));
