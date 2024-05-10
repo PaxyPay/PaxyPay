@@ -30,7 +30,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                    <img src="{{ env('APP_URL') }}/Immagine.png" alt="" class="logo">
+                    <img src="{{ env('APP_URL') }}/paxy-pay-logo.png" alt="" class="logo">
                     {{-- <h1>Proxy</h1> --}}
                     {{-- config('app.name', 'Laravel') --}}
                 </a>
