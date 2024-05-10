@@ -46,7 +46,7 @@ class PayController extends Controller
             $settings = json_decode($user->settings, true);
 
             \Stripe\Stripe::setApiKey($settings['payMethods']['stripe']['privateKey']);
-            $YOUR_DOMAIN = 'https://proxy.cmh.it';
+            $YOUR_DOMAIN = env('APP_URL');
 
             $line_items = [];
             foreach ($payment->products as $product) {
