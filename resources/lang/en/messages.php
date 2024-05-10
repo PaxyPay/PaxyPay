@@ -1,6 +1,6 @@
 <?php
 return [
-    'welcome' => 'Welcome on my site!',
+    'benvenuto' => 'Welcome on my site!',
    
 ];
 ?>
