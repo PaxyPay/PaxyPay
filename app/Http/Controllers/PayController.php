@@ -46,7 +46,7 @@ class PayController extends Controller
             $settings = json_decode($user->settings, true);
 
             \Stripe\Stripe::setApiKey($settings['payMethods']['stripe']['privateKey']);
-            $YOUR_DOMAIN = 'https://proxy.cmh.it';
+            $YOUR_DOMAIN = env('APP_URL');
 
             $line_items = [];
             foreach ($payment->products as $product) {
@@ -104,7 +104,7 @@ class PayController extends Controller
             $data = json_decode($body);
 
             $accessToken = $data->access_token;
-
+            $baseUrl = env('APP_URL');
             // Effettua la richiesta POST per creare l'ordine di pagamento
             $response = Http::withBasicAuth($clientId, $clientSecret)
                 ->post('https://api.sandbox.paypal.com/v2/checkout/orders', [
@@ -119,7 +119,7 @@ class PayController extends Controller
 
                     ],
                     'application_context' => [
-                        'return_url' => 'https://proxy.cmh.it/success',
+                        'return_url' => $baseUrl .'/success',
                         'cancel_url' => 'https://example.com/checkout/cancel',
                     ],
                 ]);

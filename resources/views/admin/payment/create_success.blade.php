@@ -7,12 +7,13 @@
                     <div class="mt-5 d-flex justify-content-center align-items-center flex-column">
                         <h3>Pagamento creato con successo!</h3>
                         <p>
-                            Questo è il tuo link per condividere il tuo pagamento : <a class="text-primary"
-                                href="{{ 'https://proxy.cmh.it/pay/' . $payment->token }}">{{ 'https://proxy.cmh.it/pay/' . $payment->token }}</a>
+                            Questo è il tuo link per condividere il tuo pagamento : 
+                            <a class="text-primary"
+                                href="{{ env('APP_URL') .'/'.'pay/' . $payment->token }}">{{ env('APP_URL').'/'.'pay/' . $payment->token }}</a>
                         </p>
                         <p class="d-flex">
                             <a class="btn btn-primary bottoneCondividi dropdown-item" onclick="copy(event)"
-                                token="https://proxy.cmh.it/pay/{{ $payment->token }}">
+                                token="{{ env('APP_URL').'/'.'pay/' . $payment->token }}">
                                 <i class="fa-solid fa-share-nodes"></i> Condividi : Share
                             </a>
                         </p>
