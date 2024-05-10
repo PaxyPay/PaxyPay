@@ -6,9 +6,9 @@
             @if ($payment && $payment->active == 1 && $user && $payment->status != 'paid')
                 <div>
                     @if ($user->image)
-                        <img class="logo-pay" src="{{ $user->image }}" alt="Immagine del profilo">
+                        <img class="logo-pay" src="{{ env('APP_URL') }}{{ $user->image }}" alt="Immagine del profilo">
                     @else
-                        <img class="logo-pay" src="http://192.168.1.8:8000/immagine.png" alt="">
+                        <img class="logo-pay" src="{{ env('APP_URL') }}/immagine.png" alt="">
                     @endif
                 </div>
                 <div>

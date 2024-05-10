@@ -32,12 +32,13 @@ class ProfileController extends Controller
         $user = Auth::user();
         // dd($data);
         // Verifica se è stata caricata un'immagine
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('uploads', 'public');
-        $imageUrl = Storage::url($imagePath);
-        // Salva l'URL dell'immagine nel campo 'image' del modello User
-        $user->image = $imageUrl;
-    }
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('uploads', 'public');
+            // dd($imagePath);
+            $imageUrl = Storage::url($imagePath);
+            // Salva l'URL dell'immagine nel campo 'image' del modello User
+            $user->image = $imageUrl;
+        }
    
         // $imagePath = $request->file('image')->storePublicly('uploads','public');
         // $imageUrl = asset('storage/'. str_replace('public','',$imagePath));

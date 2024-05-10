@@ -7,11 +7,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Proxy</title>
+    <title>{{ env('APP_NAME') }}</title>
 
 
     <!-- Fonts -->
-    <link rel="icon" href="https://proxy.cmh.it/Immagine.png">
+    <link rel="icon" href="{{ env('APP_URL') }}/Immagine.png">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -21,13 +21,13 @@
 
     <!-- JavaScript di Bootstrap (opzionale, se vuoi utilizzare componenti interattivi) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://proxy.cmh.it/build/assets/app.b0bef6e8.css">       
-    <script type="module" src="https://proxy.cmh.it/build/assets/app.494c25bb.js" onload=""></script>
+    <link rel="stylesheet" href="{{ env('APP_URL') }}/build/assets/app.b0bef6e8.css">       
+    <script type="module" src="{{ env('APP_URL') }}/build/assets/app.494c25bb.js" onload=""></script>
     @if(isset($user))
     <meta property="og:title" content="{{$user->name}}">
     <meta property="og:description" content="{{$payment->description}}">
     <meta property="og:image" content="{{$user->image}}">
-    <meta property="og:url" content="https://proxy.cmh.it/pay/{{$payment->token}}">
+    <meta property="og:url" content="{{ env('APP_URL') }}/pay/{{$payment->token}}">
    @endif
 
     <style lang="scss">

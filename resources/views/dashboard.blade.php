@@ -3,6 +3,7 @@
 @section('content')
     <form id="form" name="form" action="{{ route('profile.dashboard') }}" method="GET" class="shadow search p-3">
         <div class="container">
+        
 
             <div class="row justify-content-center card mt-4 shadow">
                 <div class="card-header shadow">

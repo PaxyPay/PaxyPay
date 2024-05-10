@@ -8,18 +8,18 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Proxy</title>
-    <link rel="icon" href="https://proxy.cmh.it/Immagine.png">
+    <title>{{ env('APP_NAME') }}</title>
+    <link rel="icon" href="{{ env('APP_URL') }}/Immagine.png">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/bce4c6f505.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://proxy.cmh.it/build/assets/app.b0bef6e8.css">  
+    <link rel="stylesheet" href="{{ env('APP_URL') }}/build/assets/app.b0bef6e8.css">  
     <style>td{color: currentColor !important}</style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="https://proxy.cmh.it/build/assets/app.494c25bb.js" onload=""></script>
+    <script type="module" src="{{ env('APP_URL') }}/build/assets/app.494c25bb.js" onload=""></script>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                    <img src="https://proxy.cmh.it/Immagine.png" alt="" class="logo">
+                    <img src="{{ env('APP_URL') }}/Immagine.png" alt="" class="logo">
                     {{-- <h1>Proxy</h1> --}}
                     {{-- config('app.name', 'Laravel') --}}
                 </a>
@@ -97,13 +97,14 @@
 </html>
 
 <script>
+    baseurl = {{ env('APP_URL') }};
     document.addEventListener('DOMContentLoaded', function() {
         // Aggiungi una classe al documento quando lo script è in caricamento
         document.documentElement.classList.add('loading');
     });
 
     // Rimuovi la classe quando lo script è completamente caricato
-    document.querySelector('script[src="https://proxy.cmh.it/resources/js/app.js"]').addEventListener('load',
+    document.querySelector(`script[src="${baseurl}/resources/js/app.js"]`).addEventListener('load',
         function() {
             document.documentElement.classList.remove('loading');
         });
@@ -113,7 +114,7 @@
     });
 
     // Rimuovi la classe "loaded" quando lo script è completamente caricato
-    document.querySelector('script[src="https://proxy.cmh.it/resources/js/app.js"]').addEventListener('load',
+    document.querySelector(`script[src="${baseurl}/resources/js/app.js"]`).addEventListener('load',
         function() {
             document.documentElement.classList.remove('loaded');
         });
