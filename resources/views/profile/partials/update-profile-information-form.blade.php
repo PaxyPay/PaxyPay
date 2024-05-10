@@ -15,7 +15,7 @@
 
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 " enctype="multipart/form-data" >
         @csrf
-        @method('patch')
+        {{-- @method('patch') --}}
 
         <div class="mb-2">
             <label for="name">{{ __('Name') }}</label>
@@ -31,7 +31,7 @@
         <div class="mb-2">
             <label for="company_name">{{ __('Company Name') }}</label>
             <input class="form-control" type="text" name="company_name" id="company_name" autocomplete="company_name"
-                value="{{ old('company_name', $user->company_name) }}" required autofocus>
+                value="{{ old('company_name', $user->company_name) }}"  autofocus>
             @error('company_name')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->get('company_name') }}</strong>
@@ -42,7 +42,7 @@
         <div class="mb-2">
             <label for="company_phone">{{ __('Company Phone') }}</label>
             <input class="form-control" type="text" name="company_phone" id="company_phone"
-                autocomplete="company_phone" value="{{ old('company_phone', $user->company_phone) }}" required
+                autocomplete="company_phone" value="{{ old('company_phone', $user->company_phone) }}" 
                 autofocus>
             @error('company_phone')
                 <span class="invalid-feedback" role="alert">
@@ -50,11 +50,11 @@
                 </span>
             @enderror
         </div>
-
+        
         <div class="mb-2">
             <label for="company_address">{{ __('Company Address') }}</label>
             <input class="form-control" type="text" name="company_address" id="company_address"
-                autocomplete="company_address" value="{{ old('company_address', $user->company_address) }}" required
+                autocomplete="company_address" value="{{ old('company_address', $user->company_address) }}" 
                 autofocus>
             @error('company_address')
                 <span class="invalid-feedback" role="alert">
@@ -73,29 +73,29 @@
             @enderror
         </div>
 
-        <div class="mb-2">
+        {{-- <div class="mb-2">
             <label for="company_email">{{ __('Company Email') }}</label>
             <input class="form-control" type="text" name="company_email" id="company_email"
-                autocomplete="company_email" value="{{ old('company_email', $user->company_email) }}" required
+                autocomplete="company_email" value="{{ old('company_email', $user->company_email) }}" 
                 autofocus>
             @error('company_email')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->get('company_email') }}</strong>
                 </span>
             @enderror
-        </div>
+        </div> --}}
 
         <div class="mb-2">
             <label for="vat_number">{{ __('Vat Number') }}</label>
             <input class="form-control" type="text" name="vat_number" id="vat_number" autocomplete="vat_number"
-                value="{{ old('vat_number', $user->vat_number) }}" required autofocus>
+                value="{{ old('vat_number', $user->vat_number) }}"  autofocus>
             @error('vat_number')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->get('vat_number') }}</strong>
                 </span>
             @enderror
         </div>
-  
+       
 
         <div class="mb-2">
             <label for="email">
@@ -103,7 +103,7 @@
             </label>
 
             <input id="email" name="email" type="email" class="form-control"
-                value="{{ old('email', $user->email) }}" required autocomplete="username" />
+                value="{{ old('email', $user->email) }}"  autocomplete="username" />
 
             @error('email')
                 <span class="alert alert-danger mt-2" role="alert">
@@ -118,8 +118,10 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </div>
-        @endif
+            </div>    
+            @endif
+           
+   
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-muted">

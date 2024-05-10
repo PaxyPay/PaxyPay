@@ -293,14 +293,14 @@
                                                     <li>
                                                         <a class="btn btn-primary copyButton dropdown-item"
                                                             onclick="copy(event)"
-                                                            token="https://proxy.cmh.it/pay/{{ $payment->token }}">
+                                                            token="https://paxypay.com/pay/{{ $payment->token }}">
                                                             <i class="fa-regular fa-copy"></i> Copy
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="btn btn-primary bottoneCondividi dropdown-item"
                                                             onclick="copy(event)"
-                                                            token="https://proxy.cmh.it/pay/{{ $payment->token }}">
+                                                            token="https://paxypay.com/pay/{{ $payment->token }}">
                                                             <i class="fa-solid fa-share-nodes"></i> Share
                                                         </a>
                                                     </li>

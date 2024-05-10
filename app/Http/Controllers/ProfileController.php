@@ -8,43 +8,77 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
+
+
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-
+        // dd('ciao');
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
     }
 
+    public function update(Request $request)
+    {
+        $data = $request;
+        // Recupera l'utente attualmente autenticato o qualsiasi altro metodo per ottenere l'ID dell'utente
+        $user = Auth::user();
+        // dd($data);
+        // Verifica se è stata caricata un'immagine
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('uploads', 'public');
+        $imageUrl = Storage::url($imagePath);
+        // Salva l'URL dell'immagine nel campo 'image' del modello User
+        $user->image = $imageUrl;
+    }
+   
+        // $imagePath = $request->file('image')->storePublicly('uploads','public');
+        // $imageUrl = asset('storage/'. str_replace('public','',$imagePath));
+        // $data['image'] = $imageUrl;
+  
+         // Salva eventuali altri dati
+        $user->fill($request->except('image'));
+        
+        // Salva le modifiche nel database
+        $user->save();
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // return redirect()->route('dashboard', $company->id);
+    }
+
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+    // public function update(ProfileUpdateRequest $request)
+    // {
+    //     dd($request);
+        
+    //     $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    //     if ($request->user()->isDirty('email')) {
+    //         $request->user()->email_verified_at = null;
+    //     }
+        
+    //     // if ($request->hasFile('image')) {
+    //     //     $imagePath = $request->file('image')->storePublicly('uploads', 'public');
+    //     //     $imageUrl = asset('storage/' . str_replace('public/', '', $imagePath));
+    //     //     $request->user()->image = $imageUrl; // Assicurati che 'image' sia un campo stringa nel modello dell'utente
+    //     // }
+    //     $imagePath = $request->file('image')->store('uploads', 'public');
+    //     $imageUrl = Storage::url($imagePath);
+    //     $data['image'] = 'ciao';
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->storePublicly('uploads', 'public');
-            $imageUrl = asset('storage/' . str_replace('public/', '', $imagePath));
-            $request->user()->image = $imageUrl; // Assicurati che 'image' sia un campo stringa nel modello dell'utente
-        }
-        // if($request->user()->image = ''){
-        //     $request->user()->image = null;
-        // }
-        $request->user()->save();
+    //     $request->user()->fill($data);
+    //     $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
+    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    // }
 
 
 
