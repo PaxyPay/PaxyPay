@@ -71,7 +71,7 @@
                             <div class="mt-2">
 
                             </div>
-                            @if ($settings['payMethods'][1]['active'] == 0)
+                            @if ($settings['payMethods']['stripe']['active'] == 0)
                             @else
                                 <button class="btn btn-success m-2" type="submit">Paga con Carta</button>
                             @endif
@@ -82,7 +82,7 @@
 
                             </div>
 
-                            @if ($settings['payMethods'][0]['active'] == 0)
+                            @if ($settings['payMethods']['paypal']['active'] == 0)
                             @else
                                 <button class="btn btn-primary m-2" type="submit">PayPal</button>
                             @endif
@@ -92,12 +92,12 @@
                             <div class="mt-2">
 
                             </div>
-                            @if ($settings['payMethods'][0]['active'] == 0)
+                            @if ($settings['payMethods']['paypal']['active'] == 0)
                             @else
                                 <button class="btn btn-danger  m-2" type="submit">Satispay</button>
                             @endif
                         </form>
-                        @if ($settings['payMethods'][1]['active'] == 0 && $settings['payMethods'][0]['active'] == 0)
+                        @if ($settings['payMethods']['stripe']['active'] == 0 && $settings['payMethods']['paypal']['active'] == 0)
                             <div>
                                 <span class="btn btn-danger ">NESSUN METODO DI PAGAMENTO DISPONIBILE</span>
                             </div>
