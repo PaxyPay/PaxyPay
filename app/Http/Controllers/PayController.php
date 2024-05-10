@@ -150,7 +150,6 @@ class PayController extends Controller
    
 
         // dd($payment->status);
-        $payment->save();
         if (isset($user)) {
             $user = $payment->user;
         }
