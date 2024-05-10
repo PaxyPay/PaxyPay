@@ -40,8 +40,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="due_date">Due Date</label>
-                            <input type="date" class="form-control" id="due_date" name="due_date"
-                                value="{{ old('due_date', $payment->due_date) }}">
+                            <input type="datetime-local" class="form-control" id="due_date" name="due_date"
+                                value="{{ old('due_date', $payment->due_date) }}" min="{{ now()->addHours(2)->format('Y-m-d\TH')}}">
                         </div>
                         <div class="form-check form-switch">
                             <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
