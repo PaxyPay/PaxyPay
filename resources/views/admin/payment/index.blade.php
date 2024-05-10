@@ -312,7 +312,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                           
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -324,7 +324,7 @@
             </div>
             <div class="col-12 p-0">
 
-                {{-- Pagination
+
                 <div class="pagination d-flex justify-content-between p-1 shadow search mt-3 align-items-center">
                     <div class="d-flex gap-2">
                         <div>
@@ -342,13 +342,33 @@
                             @endif
                         </div>
                     </div>
-                    <div class="d-none d-lg-table-cell">
+                    {{-- <div class="d-none d-lg-table-cell">
                         <span>Current Page</span>
                         <span class="font-weight-bold">{{ $payments->currentPage() }}</span> /
                         <span class="font-weight-bold">{{ $payments->lastPage() }}</span>
                         <span class="mx-4">Total results : {{ $payments->total() }}</span>
+                    </div> --}}
+                    <div class="d-flex gap-2">
+                        @if ($payments->currentPage() == $payments->lastPage() && $payments->currentPage() > 1)
+                            <a class="btn btn-secondary"
+                                href="{{ $payments->appends(request()->query())->url($payments->currentPage() - 2) }}">{{ $payments->currentPage() - 2 }}</a>
+                        @endif
+                        @if ($payments->currentPage() > 1)
+                            <a class="btn btn-secondary"
+                                href="{{ $payments->appends(request()->query())->url($payments->currentPage() - 1) }}">{{ $payments->currentPage() - 1 }}</a>
+                        @endif
+                        {{-- elemento sempre presente della current page --}}
+                        <a class="btn btn-secondary {{ $payments->currentPage() ? 'active' : '' }}"
+                            href="{{ $payments->url($payments->currentPage()) }}">{{ $payments->currentPage() }}</a>
+                        @if ($payments->currentPage() < $payments->lastPage())
+                            <a class="btn btn-secondary"
+                                href="{{ $payments->appends(request()->query())->url($payments->currentPage() + 1) }}">{{ $payments->currentPage() + 1 }}</a>
+                        @endif
+                        @if ($payments->currentPage() == 1 && $payments->lastPage() > 1)
+                            <a class="btn btn-secondary"
+                                href="{{ $payments->appends(request()->query())->url($payments->currentPage() + 2) }}">{{ $payments->currentPage() + 2 }}</a>
+                        @endif
                     </div>
-
                     <div class="d-flex gap-2">
                         <div>
                             @if ($payments->hasMorePages())
@@ -368,57 +388,7 @@
                             @endif
                         </div>
                     </div>
-                </div> --}}
-                {{-- paginazione  --}}
-            <ul class="pagination justify-content-center">
-
-                @if ($payments->currentPage() > 1)
-                    <a class="page-link" href="{{ $payments->appends(request()->query())->Url(1) }}">
-                        <i class="fa-solid fa-angles-left"></i>
-                    </a>
-                    <a class="page-link" href="{{ $payments->appends(request()->query())->previousPageUrl() }}"><i
-                            class="fa-solid fa-chevron-left"></i></a>
-                @endif
-
-                @if ($payments->lastPage() > 2)
-                    @if ($payments->currentPage() == $payments->lastPage() && $payments->currentPage() > 1)
-                        <a class="page-link"
-                            href="{{ $payments->appends(request()->query())->url($payments->currentPage() - 2) }}">{{ $payments->currentPage() - 2 }}</a>
-                    @endif
-                    @if ($payments->currentPage() > 1)
-                        <a class="page-link"
-                            href="{{ $payments->appends(request()->query())->url($payments->currentPage() - 1) }}">{{ $payments->currentPage() - 1 }}</a>
-                    @endif
-                    {{-- elemento sempre presente della current page --}}
-                    <a class="page-link {{ $payments->currentPage() ? 'active' : '' }}"
-                        href="{{ $payments->url($payments->currentPage()) }}">{{ $payments->currentPage() }}</a>
-                    @if ($payments->currentPage() < $payments->lastPage())
-                        <a class="page-link"
-                            href="{{ $payments->appends(request()->query())->url($payments->currentPage() + 1) }}">{{ $payments->currentPage() + 1 }}</a>
-                    @endif
-                    @if ($payments->currentPage() == 1 && $payments->lastPage() > 1)
-                        <a class="page-link"
-                            href="{{ $payments->appends(request()->query())->url($payments->currentPage() + 2) }}">{{ $payments->currentPage() + 2 }}</a>
-                    @endif
-                @else
-                    {{-- se le pagine sono 1 o 2 --}}
-                    @for ($i = 1; $i <= $payments->lastPage(); $i++)
-                        <a class="page-link  {{ $i == $payments->currentPage() ? 'active' : '' }}"
-                            href="{{ $payments->appends(request()->query())->url($i) }}">{{ $i }}</a>
-                    @endfor
-                @endif
-
-
-                @if ($payments->hasMorePages())
-                    {{-- <a href="{{ $payments->appends(['keyword'=> request()->query('keyword')])->nextPageUrl() }}">Avanti</a> --}}
-                    <a class="page-link " href="{{ $payments->appends(request()->query())->nextPageUrl() }}">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                    <a class="page-link" href="{{ $payments->appends(request()->query())->url($payments->lastPage()) }}">
-                        <i class="fa-solid fa-angles-right"></i>
-                    </a>
-                @endif
-            </ul>
+                </div>
             </div>
         </div>
     </div>
