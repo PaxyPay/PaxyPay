@@ -3,23 +3,12 @@
 
     <div class="container mt-5 p-4 max-container">
         <div class="row">
-<<<<<<< HEAD
             @if (
                 $payment &&
                     $payment->active == 1 &&
                     $user &&
                     $payment->status != 'paid' &&
                     (!$payment->due_date || $payment->due_date >= \Carbon\Carbon::now()))
-=======
-            @if ($payment && $payment->active == 1 && $user && $payment->status != 'paid'&& (!$payment->due_date || $payment->due_date >= \Carbon\Carbon::now()))
-            <form id="languageForm" action="{{ route('changeLanguage') }}" method="POST">
-                @csrf
-                <select name="locale" onchange="this.form.submit()" class="form-select">
-                    <option value="it" {{ session('locale', 'it') === 'it' ? 'selected' : '' }}>Italian</option>
-                    <option value="en" {{ session('locale', 'it') === 'en' ? 'selected' : '' }}>English</option>
-                </select>
-            </form>
->>>>>>> fb0f7ea85dc0153e337a5b97a521c0657a96f6e1
                 <div>
                     @if ($user->image)
                         <img class="logo-pay" src="{{ $user->image }}" alt="Immagine del profilo">
@@ -28,7 +17,7 @@
                     @endif
                 </div>
                 <div>
-                    <span>{{ $user->name }} {{ __('messages.sta_richiedendo_questo_pagamento') }}</span>
+                    <span>{{ $user->name }} sta richiedendo questo pagamento</span>
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola">
                     <span>{{ $payment->description }}</span>
