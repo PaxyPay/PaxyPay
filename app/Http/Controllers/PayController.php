@@ -46,31 +46,44 @@ class PayController extends Controller
 
             \Stripe\Stripe::setApiKey($settings['payMethods']['stripe']['privateKey']);
             $YOUR_DOMAIN = env('APP_URL');
-
+            $total_amount = 0;
             $line_items = [];
             foreach ($payment->products as $product) {
-                $line_items[] = [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'product_data' => [
-                            'name' => isset($product['product_name']) ? $product['product_name'] : 'prodotto',
-                        ],
-                        'unit_amount' => $product['product_price'] * 100,
-                    ],
-                    'quantity' => $product['quantity'],
-                ];
-            }
+                $total_amount += $product['product_price'] * $product['quantity'];
 
+                // vecchia logica che passava tutti i prodotti 
+                // $line_items[] = [
+                //     'price_data' => [
+                //         'currency' => 'eur',
+                //         'product_data' => [
+                //             'name' => isset($product['product_name']) ? $product['product_name'] : 'prodotto',
+                //         ],
+                //         'unit_amount' => $product['product_price'] * 100,
+                //     ],
+                //     'quantity' => $product['quantity'],
+                // ];
+            }
+            $total = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => 'totale',
+                    ],
+                    'unit_amount' => $total_amount * 100,
+                ],
+                'quantity' => 1,
+            ];
             $request->session()->put('payment_id', $payment->id);
             $session = \Stripe\Checkout\Session::create([
                 'customer_creation' => "always",
-                'line_items' => $line_items,
+                'line_items' =>  [$total],
                 'mode' => 'payment',
                 'success_url' => $YOUR_DOMAIN . '/success',
                 'cancel_url' => $YOUR_DOMAIN . '/checkout',
             ]);
 
             $payment->checkout_id = $session['id'];
+            $payment->payment_method = "stripe";
             $payment->save();
             return redirect()->away($session->url);
         }
@@ -144,30 +157,24 @@ class PayController extends Controller
     }
     public function success(Request $request)
     {
-
+  
         $paymentId = $request->session()->get('payment_id');
         $payment = Payment::find($paymentId);
-   
-
-        // dd($payment->status);
-        if (isset($user)) {
-            $user = $payment->user;
-        }
 
         if ($paymentId) {
             $payment = Payment::find($paymentId);
 
             $user = $payment->user;
-           
             $payment->status = 'paid';
             $payment->paid_date = now()->setTimezone('Europe/Rome');;
+           
          
             $settings = json_decode($user->settings, true);
-            if($settings['payMethods']['stripe']['active'] == 1 && $settings['payMethods']['paypal']['active'] == 0){
+            if($payment->payment_method == 'stripe'){
                 $client = new Client();
                 $settings = json_decode($user->settings, true);
                 $headers = [
-                    'Authorization' => 'Bearer ' . $settings['payMethods'][0]['privateKey'],
+                    'Authorization' => 'Bearer ' . $settings['payMethods']['stripe']['privateKey'],
                     'Content-Type' => 'application/json',
                 ];
                 // Disabilita la verifica del certificato SSL
@@ -188,19 +195,19 @@ class PayController extends Controller
                 $payment->customer_email = $customer_email;
                 $payment->customer_name = $customer_name;
                 $payment->save();
-               
-    
                 Mail::to($user->email)->send(new PaymentReceived($payment));
+           
             }
+                // Rimuovi l'ID del pagamento dalla sessione
+                $request->session()->forget('payment_id');
+
+                // Visualizza la vista di successo
+                return view('pay.success', compact('payment'));
             
         }
     
 
-        // Rimuovi l'ID del pagamento dalla sessione
-        $request->session()->forget('payment_id');
-
-        // Visualizza la vista di successo
-        return view('pay.success', compact('payment'));
+       
     }
 
     // public function createPayPalOrder(Request $request)
