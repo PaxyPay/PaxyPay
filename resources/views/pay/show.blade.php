@@ -3,7 +3,7 @@
 
     <div class="container mt-5 p-4 max-container">
         <div class="row">
-            @if ($payment && $payment->active == 1 && $user && $payment->status != 'paid')
+            @if ($payment && $payment->active == 1 && $user && $payment->status != 'paid'&& $payment->due_date >= \Carbon\Carbon::now())
                 <div>
                     @if ($user->image)
                         <img class="logo-pay" src="{{ $user->image }}" alt="Immagine del profilo">

@@ -97,7 +97,7 @@
                                                 </div>
                                                 <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                                     <label for="product_price" class="form-label mx-2">Price : &euro;</label>
-                                                    <input type="number" class="form-control refresh price" step="0.01" min="1"
+                                                    <input type="number" class="form-control refresh price control" step="0.01" min="1"
                                                         name="products[{{ $i }}][product_price]"
                                                         onchange="updateTotalPrice()"
                                                         value="{{ old('product_price[]', $product->product_price) }}">
@@ -151,7 +151,7 @@
                 index++;
                 var lastProductSection = document.querySelector("#productSections .card:last-of-type");
                 if (lastProductSection) {
-                    var inputs = lastProductSection.querySelectorAll("input");
+                    var inputs = lastProductSection.querySelectorAll(".control");
                     var isFilled = true;
                     inputs.forEach(function(input) {
                         if (input.value.trim() === "") {
@@ -162,6 +162,9 @@
 
                     // Se i campi del prodotto precedente non sono stati compilati, mostra un messaggio di errore
                     if (!isFilled) {
+                        alert(
+                            "Inserisci il prezzo prima di aggiungerne un altro."
+                        );
                         return
                     }
                 }
@@ -194,7 +197,7 @@
                                 </div>
                                 <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                     <label for="product_price" class="form-label mx-2">Price : &euro;</label>
-                                    <input type="number" class="form-control refresh price" step="0.01"
+                                    <input type="number" class="form-control refresh price control " step="0.01"
                                         name="products[${index}][product_price]" onchange="updateTotalPrice()"
                                         value="{{ old('products.${index}.product_price') }}">
                                 </div>
@@ -213,7 +216,7 @@
                     updateTotalPrice();
                 }
             });
-
+            
 
 
             function updateTotalPrice() {
