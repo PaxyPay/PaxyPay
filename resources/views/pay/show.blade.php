@@ -3,7 +3,12 @@
 
     <div class="container mt-5 p-4 max-container">
         <div class="row">
-            @if ($payment && $payment->active == 1 && $user && $payment->status != 'paid'&& (!$payment->due_date || $payment->due_date >= \Carbon\Carbon::now()))
+            @if (
+                $payment &&
+                    $payment->active == 1 &&
+                    $user &&
+                    $payment->status != 'paid' &&
+                    (!$payment->due_date || $payment->due_date >= \Carbon\Carbon::now()))
                 <div>
                     @if ($user->image)
                         <img class="logo-pay" src="{{ $user->image }}" alt="Immagine del profilo">
@@ -17,7 +22,6 @@
                 <div class="card p-3 shadow my-2 bg-viola">
                     <span>{{ $payment->description }}</span>
                 </div>
-
                 <div class="card p-3 shadow my-2 bg-viola">
                     <span>
                         Data di scadenza:
@@ -56,17 +60,18 @@
                 </div>
                 <div class="card d-flex justify-content-between flex-row px-4 py-2 bg-purple">
                     <span>Totale €: </span>
-                    <span class="fw-bold">  {{ number_format($payment->total_price, 2, ',', '.') }}</span>
+                    <span class="fw-bold">{{ $payment->total_price }}</span>
                 </div>
                 <div>
-                    <input class="form-check-input" type="checkbox" role="switch" id="stripeCheckbox"
-                        value="1" name="police" required>
+                    <input class="form-check-input" type="checkbox" role="switch" id="stripeCheckbox" value="1"
+                        name="police" required>
                     <label for="">Accetto le policy d'uso e privacy (click per info)</label>
 
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="m-3 d-flex justify-content-center ">
-                        <form action="{{ route('pay.stripe', $payment->id) }}" method="POST" onsubmit="return checkStripeCheckbox()">
+                        <form action="{{ route('pay.stripe', $payment->id) }}" method="POST"
+                            onsubmit="return checkStripeCheckbox()">
                             @csrf
                             <div class="mt-2">
 
@@ -76,18 +81,13 @@
                                 <button class="btn btn-success m-2" type="submit">Paga con Carta</button>
                             @endif
                         </form>
-                        <form action="{{ route('pay.paypal', $payment->id) }}" method="POST" onsubmit="return checkStripeCheckbox()">
-                            @csrf
-                            <div class="mt-2">
-
-                            </div>
-
-                            @if ($settings['payMethods']['paypal']['active'] == 0)
-                            @else
-                                <button class="btn btn-primary m-2" type="submit">PayPal</button>
-                            @endif
-                        </form>
-                        <form action="{{ route('pay.satispay', $payment->id) }}" method="POST" onsubmit="return checkStripeCheckbox()">
+                        <div id="paypal-button-container">
+                           Paypal
+                        </div>
+                        
+                       
+                        <form action="{{ route('pay.satispay', $payment->id) }}" method="POST"
+                            onsubmit="return checkStripeCheckbox()">
                             @csrf
                             <div class="mt-2">
 
@@ -136,10 +136,41 @@
         }
     </style>
 
+<script src="https://www.paypal.com/sdk/js?client-id=ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE"></script>
+
+
     <script>
-        // Funzione per controllare lo stato della casella di controllo prima di inviare il modulo
+        document.addEventListener("DOMContentLoaded", (event) => {
+        paypal.Buttons(
+            {
+                async createOrder() {
+                    // const response = await fetch('https://paxypay.com/api/createOrder', {
+                    const response = await fetch('http://127.0.0.1:8002/api/createOrder', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            cart: [{
+                                sku: "10",
+                                quantity: "1",
+                            }]
+                        })
+                    });
 
+                    const order = await response.json();
+                    return order.id;
+                },
+                // onApprove: async function(data, actions) {
+                    
+                // }
+            }
+        ).render('#paypal-button-container');;  
+        });
 
+    </script>
+
+    <script>
         function checkStripeCheckbox() {
             var checkbox = document.getElementById('stripeCheckbox');
             if (checkbox.checked) {
@@ -150,7 +181,5 @@
             }
         }
     </script>
-
-
 
 @endsection
