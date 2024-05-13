@@ -4,6 +4,7 @@ return [
     'nuovo_pagamento' => 'Nuovo Pagamento',
     'cerca' => 'Cerca',
     'attivi' => 'Attivi',
+    'attivo' => 'Attivo',
     'tutti' => 'Tutti',
     'disattivi' => "Disattivi",
     'disattivo' => "Disattivo",
@@ -53,7 +54,23 @@ return [
     'statistiche' => 'Statistiche',
     'esci' => 'Esci',
     'salva' => 'Salva',
+    // pagina utente
     'sta_richiedendo_questo_pagamento' => 'sta richiedendo questo pagamento',
-    'data_di_scadenza'=> 'data di scadenza'
+    'data_di_scadenza'=> 'data di scadenza',
+    'prezzo'=> 'Prezzo',
+    'prezzo_unitario'=> 'prezzo unitario',
+    'totale'=> 'Totale',
+    'privacy'=> "Accetto le policy d'uso e privacy (click per info)",
+    'paga_con_carta' => 'Paga con Carta',
+    // creazione
+    'descrizione' => 'Descrizione',
+    'due_date' => 'Data di Scadenza',
+    'nome'=> 'Nome',
+    'quantita'=> 'Quantità',
+    'crea'=> 'Crea',
+    'indietro'=> 'Indietro',
+    'aggiungi_prodotto' => 'Aggiungi Prodotto',
+    'carrello'=>'Carrello'
+
 ];
 ?>

@@ -8,31 +8,31 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="client_name" class="form-label">Client Name</label>
+                            <label for="client_name" class="form-label">{{ __('messages.nome') }}</label>
                             <input type="text" class="form-control" id="client_name" name="client_name"
                                 value="{{ old('client_name') }}">
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">{{ __('messages.descrizione') }}</label>
                             <textarea type="text" class="form-control " id="description" rows="4" value="{{ old('description') }}"
                                 name="description">{{ old('description') }}</textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="">Due Date</label>
+                            <label for="">{{ __('messages.due_date') }}</label>
                             <input type="datetime-local" class="form-control" id="due_date" name="due_date"
                                 value="{{ old('due_date') }}" min="{{ now()->addHours(2)->format('Y-m-d\TH')}}">
                         </div>
                         <div class="form-check form-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('messages.attivo') }}</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                                 value="1" name="active" checked>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h3 class="p-3">Cart</h3>
+                                <h3 class="p-3">{{ __('messages.carrello') }}</h3>
                             </div>
                             <div class="d-flex">
-                                <button type="button" id="addProductBtn" class="btn btn-success add">+ Add Product</button>
+                                <button type="button" id="addProductBtn" class="btn btn-success add">+ {{ __('messages.aggiungi_prodotto') }}</button>
                             </div>
                         </div>
                         @if ($errors->any())
@@ -54,13 +54,13 @@
 
                                         <div class="align-items-center row justify-content-between">
                                             <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
-                                                <label for="product_name" class="form-label name mx-2"> Name</label>
+                                                <label for="product_name" class="form-label name mx-2"> {{ __('messages.nome') }}</label>
                                                 <input type="text" class="form-control refresh"
                                                     name="products[0][product_name]"
                                                     value="{{ old('products.0.product_name') }}">
                                             </div>
                                             <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
-                                                <label for="quantity" class="form-label  mx-2">Quantity</label>
+                                                <label for="quantity" class="form-label  mx-2">{{ __('messages.quantita') }}</label>
                                                 <select type="number" class="form-control refresh quantity "
                                                     name="products[0][quantity]" id="quantity_select">
                                                     @for ($j = 1; $j <= 100; $j++)
@@ -70,7 +70,7 @@
                                             </div>
                                             <div
                                                 class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
-                                                <label for="product_price" class="form-label mx-2">Price : &euro;</label>
+                                                <label for="product_price" class="form-label mx-2">{{ __('messages.prezzo') }} : &euro;</label>
                                                 <input type="number" class="form-control refresh price control" step="0.01"
                                                     min="1" name="products[0][product_price]"
                                                     onchange="updateTotalPrice()"
@@ -85,7 +85,7 @@
                                 <div class="px-3">
                                     <div class="d-flex justify-content-end flex-column align-items-end">
                                         <div class="d-flex no-wrap">
-                                            <h4>Total Price : <span id="total_price"></span> &euro;</h4>
+                                            <h4>{{ __('messages.prezzo_totale') }}  : <span id="total_price"></span> &euro;</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -93,8 +93,8 @@
                         </div>
 
                         <div class="mt-5 d-flex justify-content-between">
-                            <a class="btn btn-secondary" href="{{ route('admin.payment.index') }}"><-Back </a>
-                                    <button type="submit" id="submit" class="btn btn-primary mx-3">Create</button>
+                            <a class="btn btn-secondary" href="{{ route('admin.payment.index') }}"><-{{ __('messages.indietro') }} </a>
+                                    <button type="submit" id="submit" class="btn btn-primary mx-3">{{ __('messages.crea') }}</button>
                         </div>
                     </form>
                 </div>

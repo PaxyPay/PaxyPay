@@ -4,6 +4,7 @@ return [
     'nuovo_pagamento' => 'New Payment',
     'cerca' => 'Search',
     'attivi' => 'Actives',
+    'attivo' => 'Active',
     'tutti' => 'All',
     'disattivi' => "Disabled",
     'disattivo' => "Disabled",
@@ -42,7 +43,6 @@ return [
     'stampa_xlsx' => 'Stampa XLSX',
     'clona' => 'Clone',
     'attivo' => 'Active',
-    'disattivo' => 'Enabled',
     'pagato' => 'Paid',
     'non_pagato' => 'Not paid',
     'accedi' => 'Login',
@@ -53,8 +53,24 @@ return [
     'statistiche' => 'Dashboard',
     'esci' => 'Log out',
     'salva' => 'Save',
+    // pagina utente
     'sta_richiedendo_questo_pagamento' => 'is requesting this payment',
     'data_di_scadenza'=> 'Expiration date',
-    'descrizione prodotto/servizio' => 'product/service description'
+    'descrizione prodotto/servizio' => 'product/service description',
+    'prezzo'=> 'Price',
+    'prezzo_unitario'=> 'Unit Price',
+    'totale'=> 'Total',
+    'privacy'=> "I accept the use and privacy policies (click for info)",
+    'paga_con_carta' => 'Pay by Card',
+    'carrello'=>'Cart',
+    
+    'descrizione' => 'Description',
+    'due_date' => 'Expired Date',
+    'nome'=> 'Name',
+    'quantita'=> 'Quantity',
+    'crea'=> 'Create',
+    'indietro'=> 'Back',
+    'aggiungi_prodotto' => 'Add Product',
+
 ];
 ?>
