@@ -82,10 +82,10 @@
                             @endif
                         </form>
                         <div id="paypal-button-container">
-                      
+
                         </div>
-                        
-                       
+
+
                         <form action="{{ route('pay.satispay', $payment->id) }}" method="POST"
                             onsubmit="return checkStripeCheckbox()">
                             @csrf
@@ -136,13 +136,14 @@
         }
     </style>
 
-<script src="https://www.paypal.com/sdk/js?client-id=ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE">
+    </script>
 
 
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
-        paypal.Buttons(
-            {
+            paypal.Buttons({
                 async createOrder() {
                     // const response = await fetch('https://paxypay.com/api/createOrder', {
                     const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
@@ -161,13 +162,19 @@
                     const order = await response.json();
                     return order.id;
                 },
-                // onApprove: async function(data, actions) {
-                    
-                // }
-            }
-        ).render('#paypal-button-container');;  
-        });
+                async onApprove(data) {
+                    const response = await fetch('https://webservice.paxypay.com/api/onApprove', {
+                        method: "POST",
+                        body: JSON.stringify({
+                            orderID: data.orderID
+                        })
+                    })
+                    const details = await response.json();
+                    alert('Transaction completed')
+                }
+            }).render('#paypal-button-container');
 
+        });
     </script>
 
     <script>
