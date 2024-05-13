@@ -3,7 +3,7 @@
 @section('content')
     <div class="container p-3">
         <div class="row">
-
+        <p>{{ __('messages.benvenuto') }}</p>
             @if (session('error'))
                 <div class="alert alert-danger d-flex justify-content-center">
                     {{ session('error') }}
@@ -17,7 +17,7 @@
             </div>
             <div class="col-md-6 d-md-flex justify-content-end">
                 <div class="">
-                    <a href="{{ route('admin.payment.create') }}" class="btn btn-primary mb-3">+ New Payment</a>
+                    <a href="{{ route('admin.payment.create') }}" class="btn btn-primary mb-3">{{ __('messages.nuovo_pagamento') }}</a>
                 </div>
             </div>
 
@@ -26,31 +26,30 @@
                 class="shadow search p-3">
                 <div class="row g-2">
                     <div class="col-md-3">
-                        <label for="keyword" class="form-label">Search</label>
+                        <label for="keyword" class="form-label">{{ __('messages.cerca') }}</label>
                         <input type="text" class="form-control" placeholder="Search Payments..." id="keyword"
                             name="keyword" value="{{ request()->query('keyword') }}">
                     </div>
                     <div class="col-md-3">
-                        <label for="active" class="form-label">Active</label>
+                        <label for="active" class="form-label">{{ __('messages.attivi') }}</label>
                         <select class="form-select" aria-label="Status" id="active" name="active">
-                            <option value="" {{ request()->query('active') === null ? 'selected' : '' }}>Tutti
+                            <option value="" {{ request()->query('active') === null ? 'selected' : '' }}>{{ __('messages.tutti') }}
                             </option>
-                            <option value="1" {{ request()->query('active') == 1 ? 'selected' : '' }}>Enabled</option>
-                            <option value="2" {{ request()->query('active') == 2 ? 'selected' : '' }}>Disabled</option>
+                            <option value="1" {{ request()->query('active') == 1 ? 'selected' : '' }}>{{ __('messages.attivi') }}</option>
+                            <option value="2" {{ request()->query('active') == 2 ? 'selected' : '' }}>{{ __('messages.disattivi') }}</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label for="paid" class="form-label">Status</label>
+                        <label for="paid" class="form-label">{{ __('messages.stato') }}</label>
                         <select class="form-select" aria-label="Paid" id="paid" name="paid">
-                            <option value="" {{ request()->query('paid') === null ? 'selected' : '' }}>Tutti
+                            <option value="" {{ request()->query('paid') === null ? 'selected' : '' }}>{{ __('messages.tutti') }}
                             </option>
-                            <option value="paid" {{ request()->query('paid') == 'paid' ? 'selected' : '' }}>Paid</option>
-                            <option value="not_paid" {{ request()->query('paid') == 'not_paid' ? 'selected' : '' }}>Not
-                                Paid</option>
+                            <option value="paid" {{ request()->query('paid') == 'paid' ? 'selected' : '' }}>{{ __('messages.pagati') }}</option>
+                            <option value="not_paid" {{ request()->query('paid') == 'not_paid' ? 'selected' : '' }}>{{ __('messages.non_pagati') }}</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label for="perPage" class="form-label">Rows for Page</label>
+                        <label for="perPage" class="form-label">{{ __('messages.righe_per_pagine') }}</label>
                         <select class="form-select" id="perPage" name="perPage">
                             <option value="10" {{ $settings['perPage'] == 10 ? 'selected' : '' }}>10</option>
                             <option value="20" {{ $settings['perPage'] == 20 ? 'selected' : '' }}>20</option>
@@ -62,11 +61,11 @@
 
                             <a href="{{ route('admin.payment.index') }}" class="btn btn-danger d-none d-md-inline"
                                 id="resetFilter">
-                                <i class="fas fa-times-circle"></i> Reset Filters
+                                <i class="fas fa-times-circle"></i> {{ __('messages.resetta_filtri') }}
                             </a>
 
                             <button class="btn btn-success d-none d-md-inline" type="submit">
-                                <i class="fas fa-search"></i> Search
+                                <i class="fas fa-search"></i> {{ __('messages.cerca') }}
 
                             </button>
 
@@ -100,7 +99,7 @@
                             @if ($payments->currentPage() > 1)
                                 <a class="btn btn-secondary bh d-flex align-items-center"
                                     href="{{ $payments->appends(request()->query())->previousPageUrl() }}"
-                                    class="pagination-link">&laquo; Previous</a>
+                                    class="pagination-link">&laquo; {{ __('messages.precedente') }}</a>
                             @endif
                         </div>
                     </div>
@@ -108,7 +107,7 @@
                         <span>Current Page</span>
                         <span class="font-weight-bold">{{ $payments->currentPage() }}</span> /
                         <span class="font-weight-bold">{{ $payments->lastPage() }}</span>
-                        <span class="mx-4">Total results : {{ $payments->total() }}</span>
+                        <span class="mx-4">{{ __('messages.risultati_totali') }} : {{ $payments->total() }}</span>
                     </div>
 
                     <div class="d-flex gap-2">
@@ -116,7 +115,7 @@
                             @if ($payments->hasMorePages())
                                 <a class="btn btn-secondary bh d-flex align-items-center"
                                     href="{{ $payments->appends(request()->query())->nextPageUrl() }}"
-                                    class="pagination-link">Next
+                                    class="pagination-link">{{ __('messages.prossimo') }}
                                     &raquo;</a>
                             @endif
                         </div>
@@ -144,7 +143,7 @@
                                     <th scope="col " class="cursor">
                                         <a class="{{ $settings['orderBy'] == 'client_name' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
                                             href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'client_name', 'order' => $settings['orderBy'] == 'client_name' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">
-                                            Client Name
+                                            {{ __('messages.nome_cliente') }}
                                             @if ($settings['orderBy'] == 'client_name')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -156,8 +155,7 @@
                                     </th>
                                     <th scope="col" class="d-none d-md-table-cell">
                                         <a class="{{ $settings['orderBy'] == 'due_date' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
-                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'due_date', 'order' => $settings['orderBy'] == 'due_date' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Due
-                                            Date
+                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'due_date', 'order' => $settings['orderBy'] == 'due_date' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.data_scadenza') }}
                                             @if ($settings['orderBy'] == 'due_date')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -169,8 +167,7 @@
                                     </th>
                                     <th scope="col" class="d-none d-md-table-cell">
                                         <a class="{{ $settings['orderBy'] == 'created_at' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
-                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'created_at', 'order' => $settings['orderBy'] == 'created_at' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Created
-                                            at
+                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'created_at', 'order' => $settings['orderBy'] == 'created_at' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.data_creazione') }}
                                             @if ($settings['orderBy'] == 'created_at')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -182,7 +179,7 @@
                                     </th>
                                     <th scope="col" class="">
                                         <a class="{{ $settings['orderBy'] == 'active' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
-                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'active', 'order' => $settings['orderBy'] == 'active' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Active
+                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'active', 'order' => $settings['orderBy'] == 'active' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.attivi') }}
                                             @if ($settings['orderBy'] == 'active')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -194,7 +191,7 @@
                                     </th>
                                     <th class="">
                                         <a class="{{ $settings['orderBy'] == 'status' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
-                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'status', 'order' => $settings['orderBy'] == 'status' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Status
+                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'status', 'order' => $settings['orderBy'] == 'status' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.stato') }}
                                             @if ($settings['orderBy'] == 'status')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -206,8 +203,8 @@
                                     </th>
                                     <th scope="col" class="text-end ">
                                         <a class="{{ $settings['orderBy'] == 'total_price' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
-                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'total_price', 'order' => $settings['orderBy'] == 'total_price' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">Total
-                                            Price €
+                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'total_price', 'order' => $settings['orderBy'] == 'total_price' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.prezzo_totale') }} €
+                                            
                                             @if ($settings['orderBy'] == 'total_price')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -218,7 +215,7 @@
                                         </a>
                                     </th>
                                     <th class="">
-                                        option
+                                        {{ __('messages.opzioni') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -248,9 +245,9 @@
                                         <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
                                             <div class="d-none d-md-block">
                                                 @if ($payment->active == true)
-                                                    <span class="badge bg-success">Enabled</span>
+                                                    <span class="badge bg-success">{{ __('messages.attivo') }}</span>
                                                 @else
-                                                    <span class="badge bg-danger">Disabled</span>
+                                                    <span class="badge bg-danger">{{ __('messages.disattivo') }}</span>
                                                 @endif
                                             </div>
                                             <div class="d-md-none">
@@ -264,9 +261,9 @@
                                         <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
                                             <div class="d-none d-md-block">
                                                 @if ($payment->status == 'paid')
-                                                    <span class="badge bg-success">{{ $payment->status }}</span>
+                                                    <span class="badge bg-success">{{ __('messages.pagato') }}</span>
                                                 @else
-                                                    <span class="badge bg-danger">{{ $payment->status }}</span>
+                                                    <span class="badge bg-danger">{{ __('messages.non_pagato') }}</span>
                                                 @endif
                                             </div>
 
@@ -294,20 +291,20 @@
                                                         <a class="btn btn-primary copyButton dropdown-item"
                                                             onclick="copy(event)"
                                                             token="{{ env('APP_URL') }}/pay/{{ $payment->token }}">
-                                                            <i class="fa-regular fa-copy"></i> Copy
+                                                            <i class="fa-regular fa-copy"></i> {{ __('messages.copia') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="btn btn-primary bottoneCondividi dropdown-item"
                                                             onclick="copy(event)"
                                                             token="{{ env('APP_URL') }}/pay/{{ $payment->token }}">
-                                                            <i class="fa-solid fa-share-nodes"></i> Share
+                                                            <i class="fa-solid fa-share-nodes"></i> {{ __('messages.condividi') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="{{ route('admin.payment.copyCreate', $payment) }}"
                                                             class="btn btn-primary dropdown-item"><i
-                                                                class="fa-regular fa-clone"></i> Clone
+                                                                class="fa-regular fa-clone"></i> {{ __('messages.clona') }}
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -338,7 +335,7 @@
                             @if ($payments->currentPage() > 1)
                                 <a class="btn btn-secondary bh d-flex align-items-center"
                                     href="{{ $payments->appends(request()->query())->previousPageUrl() }}"
-                                    class="pagination-link">&laquo; Previous</a>
+                                    class="pagination-link">&laquo; {{ __('messages.precedente') }}</a>
                             @endif
                         </div>
                     </div>
@@ -374,7 +371,7 @@
                             @if ($payments->hasMorePages())
                                 <a class="btn btn-secondary bh d-flex align-items-center"
                                     href="{{ $payments->appends(request()->query())->nextPageUrl() }}"
-                                    class="pagination-link">Next
+                                    class="pagination-link">{{ __('messages.prossimo') }}
                                     &raquo;</a>
                             @endif
                         </div>
