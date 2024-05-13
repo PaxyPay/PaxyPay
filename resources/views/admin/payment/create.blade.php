@@ -25,7 +25,7 @@
                         <div class="form-check form-switch">
                             <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                                value="1" name="active">
+                                value="1" name="active" checked>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
                                                 <label for="quantity" class="form-label  mx-2">Quantity</label>
-                                                <select type="number" class="form-control refresh quantity"
+                                                <select type="number" class="form-control refresh quantity "
                                                     name="products[0][quantity]" id="quantity_select">
                                                     @for ($j = 1; $j <= 100; $j++)
                                                         <option value="{{ $j }}">{{ $j }}</option>
@@ -71,7 +71,7 @@
                                             <div
                                                 class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                                 <label for="product_price" class="form-label mx-2">Price : &euro;</label>
-                                                <input type="number" class="form-control refresh price" step="0.01"
+                                                <input type="number" class="form-control refresh price control" step="0.01"
                                                     min="1" name="products[0][product_price]"
                                                     onchange="updateTotalPrice()"
                                                     value="{{ old('products.0.product_price') }})">
@@ -151,7 +151,7 @@
                 index = index + 1;
                 var lastProductSection = document.querySelector("#productSections .card:last-of-type");
                 if (lastProductSection) {
-                    var inputs = lastProductSection.querySelectorAll("input");
+                    var inputs = lastProductSection.querySelectorAll(".control");
                     var isFilled = true;
                     inputs.forEach(function(input) {
                         if (input.value.trim() === "") {
@@ -163,7 +163,7 @@
                     // Se i campi del prodotto precedente non sono stati compilati, mostra un messaggio di errore
                     if (!isFilled) {
                         alert(
-                            "Compila tutti i campi del prodotto precedente prima di aggiungerne un altro."
+                            "Inserisci il prezzo prima di aggiungerne un altro."
                         );
                         return;
                     }
@@ -194,7 +194,7 @@
                             </div>
                             <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                 <label for="product_price" class="form-label">Price : &euro;</label>
-                                <input type="number" class="form-control refresh price" step="0.01"
+                                <input type="number" class="form-control refresh price control" step="0.01"
                                     name="products[${index}][product_price]" onchange="updateTotalPrice()"
                                     value="{{ old('products.${index}.product_price') }}">
                             </div>
