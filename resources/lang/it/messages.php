@@ -52,7 +52,8 @@ return [
     'profilo' => 'Profilo',
     'statistiche' => 'Statistiche',
     'esci' => 'Esci',
-    'salva' => 'Salva'
-    
+    'salva' => 'Salva',
+    'sta_richiedendo_questo_pagamento' => 'sta richiedendo questo pagamento',
+    'data_di_scadenza'=> 'data di scadenza'
 ];
 ?>
