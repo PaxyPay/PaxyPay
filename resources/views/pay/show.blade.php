@@ -145,7 +145,7 @@
             {
                 async createOrder() {
                     // const response = await fetch('https://paxypay.com/api/createOrder', {
-                    const response = await fetch('http://127.0.0.1:8002/api/createOrder', {
+                    const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
