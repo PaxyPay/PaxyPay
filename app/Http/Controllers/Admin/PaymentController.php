@@ -97,8 +97,8 @@ class PaymentController extends Controller
 
         $user->settings = $data_update;
         $user->save();
-
-        return view('admin.payment.index', compact('payments', 'user', 'settings', 'imageData'))->with('perPage', $perPage);
+        $locales = config('app.locales');
+        return view('admin.payment.index', ['locales' => $locales] ,compact('payments', 'user', 'settings', 'imageData','locales'))->with('perPage', $perPage);
     }
 
 
