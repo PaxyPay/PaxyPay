@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <div class="d-none d-lg-table-cell">
-                        <span>Current Page</span>
+                        <span>{{ __('messages.pagina_corrente') }}</span>
                         <span class="font-weight-bold">{{ $payments->currentPage() }}</span> /
                         <span class="font-weight-bold">{{ $payments->lastPage() }}</span>
                         <span class="mx-4">{{ __('messages.risultati_totali') }} : {{ $payments->total() }}</span>

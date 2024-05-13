@@ -12,7 +12,7 @@ return [
     'non_pagati' => 'Non Pagati',
     'righe_per_pagine' => 'Pagamenti per Pagina',
     'precedente' => 'Precedente',
-    'prossimo' => 'Prossimo',
+    'prossimo' => 'Successivo',
     'nome_cliente' => 'Nome Cliente',
     'importo' => 'Importo',
     'data_pagamento' => 'Data Pagamento',
@@ -70,7 +70,8 @@ return [
     'crea'=> 'Crea',
     'indietro'=> 'Indietro',
     'aggiungi_prodotto' => 'Aggiungi Prodotto',
-    'carrello'=>'Carrello'
+    'carrello'=>'Carrello',
+    'pagina_corrente'=> 'Pagina Corrente'
 
 ];
 ?>

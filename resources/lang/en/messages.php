@@ -71,6 +71,7 @@ return [
     'crea'=> 'Create',
     'indietro'=> 'Back',
     'aggiungi_prodotto' => 'Add Product',
+    'pagina_corrente'=> 'Current Page'
 
 ];
 ?>
