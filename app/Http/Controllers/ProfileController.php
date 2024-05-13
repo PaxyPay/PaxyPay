@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -234,26 +235,82 @@ class ProfileController extends Controller
         $yearTotalPaymentsPaid = $user->payments()->whereYear('created_at', $year)->where('status', 'paid')->get();
         $yearTotalPaymentsPaidAmmount = $yearTotalPaymentsPaid->sum('total_price');
 
+           // Array dei mesi
+           $months = [
+            '01' => 'Gennaio',
+            '02' => 'Febbraio',
+            '03' => 'Marzo',
+            '04' => 'Aprile',
+            '05' => 'Maggio',
+            '06' => 'Giugno',
+            '07' => 'Luglio',
+            '08' => 'Agosto',
+            '09' => 'Settembre',
+            '10' => 'Ottobre',
+            '11' => 'Novembre',
+            '12' => 'Dicembre'
+        ];
+        // Query per ottenere i totali mensili dei pagamenti
+        $paymentsQuery2 = $user->payments();
+        $monthlyPayments = $paymentsQuery2
+            ->select(
+                DB::raw('DATE_FORMAT(created_at, "%m") as month'),
+                DB::raw('SUM(total_price) as total_amount'),
+                DB::raw('SUM(CASE WHEN status = "paid" THEN total_price ELSE 0 END) as total_paid_amount'),
+                DB::raw('COUNT(id) as payment_count'),
+                DB::raw('SUM(CASE WHEN status = "paid" THEN 1 ELSE 0 END) as paid_payment_count')
+            )
+            ->whereYear('created_at', $year)
+            ->groupBy('month')
+            ->get();
 
         $monthlyData = [];
-        for ($month = 1; $month <= 12; $month++) {
-            // Data di inizio e fine del mese corrente
-            $startDate = "$currentYear-$month-01";
-            $endDate = date('Y-m-t', strtotime($startDate));
-
-            // Query per ottenere la somma dei totali pagati e non pagati per il mese corrente
-            $payments = $user->payments()->whereBetween('created_at', [$startDate, $endDate])->get();
-            $totalPaid = $payments->where('status', 'paid')->sum('total_price');
-            $totalUnpaid = $payments->sum('total_price');
-
-            // Aggiungi i dati al risultato mensile
-            $monthlyData[] = [
-                'month' => date('F', strtotime($startDate)),
-                'totalPaid' => $totalPaid,
-                'totalUnpaid' => $totalUnpaid
+        foreach ($monthlyPayments as $payment) {
+            $monthlyData[$payment->month] = [
+                'month' => $months[$payment->month],
+                'total_amount' => $payment->total_amount,
+                'total_paid_amount' => $payment->total_paid_amount,
+                'payment_count' => $payment->payment_count,
             ];
         }
 
+        // Riempimento dei mesi mancanti
+        foreach ($months as $key => $month) {
+            if (!isset($monthlyData[$key])) {
+                $monthlyData[$key] = [
+                    'month' => $month,
+                    'total_amount' => 0,
+                    'total_paid_amount' => 0,
+                    'payment_count' => 0,
+                ];
+            }
+        }
+
+        // Ordinamento dei dati per mese
+        ksort($monthlyData);
+        // dd($monthlyData);
+        // Creazione dei dati da passare al grafico
+        $labels = array_values($months);
+        $totalAmounts = array_column($monthlyData, 'total_amount');
+        $totalPaidAmounts = array_column($monthlyData, 'total_paid_amount');
+        // for ($month = 1; $month <= 12; $month++) {
+        //     // Data di inizio e fine del mese corrente
+        //     $startDate = "$currentYear-$month-01";
+        //     $endDate = date('Y-m-t', strtotime($startDate));
+
+        //     // Query per ottenere la somma dei totali pagati e non pagati per il mese corrente
+        //     $payments = $user->payments()->whereBetween('created_at', [$startDate, $endDate])->get();
+        //     $totalPaid = $payments->where('status', 'paid')->sum('total_price');
+        //     $totalUnpaid = $payments->sum('total_price');
+
+        //     // Aggiungi i dati al risultato mensile
+        //     $monthlyData[] = [
+        //         'month' => date('F', strtotime($startDate)),
+        //         'totalPaid' => $totalPaid,
+        //         'totalUnpaid' => $totalUnpaid
+        //     ];
+        // }
+        // dd($monthlyData);
         $totalPaymentsPaidCount = $totalpaymentsPaid->count();
         $yearTotalPaymentsPaidCount = $yearTotalPaymentsPaid->count();
         return view('dashboard', compact(
@@ -270,7 +327,11 @@ class ProfileController extends Controller
             'yearTotalPayments',
             'yearTotalPaymentsAmmount',
             'yearTotalPaymentsPaidCount',
-            'yearTotalPaymentsPaidAmmount'
+            'yearTotalPaymentsPaidAmmount',
+
+            'labels',
+            'totalAmounts',
+            'totalPaidAmounts'
         ));
     }
 }

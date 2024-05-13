@@ -203,40 +203,29 @@
         }
     </style>
     <script>
+              // Estrai i dati dall'array PHP e prepara i dati per il grafico
+            const labels = @json($labels);
+            const data = @json($totalAmounts);
+            const dataPaid = @json($totalPaidAmounts);
         let mesi = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre',
             'Ottobre', 'Novembre', 'Dicembre'
         ];
-        let pagamentiRicevuti = [
-            {{ $monthlyData[0]['totalPaid'] }}, {{ $monthlyData[1]['totalPaid'] }},
-            {{ $monthlyData[2]['totalPaid'] }}, {{ $monthlyData[3]['totalPaid'] }},
-            {{ $monthlyData[4]['totalPaid'] }}, {{ $monthlyData[5]['totalPaid'] }},
-            {{ $monthlyData[6]['totalPaid'] }}, {{ $monthlyData[7]['totalPaid'] }},
-            {{ $monthlyData[8]['totalPaid'] }}, {{ $monthlyData[9]['totalPaid'] }},
-            {{ $monthlyData[10]['totalPaid'] }}, {{ $monthlyData[11]['totalPaid'] }}
-        ];
-        let speseSostenute = [
-            {{ $monthlyData[0]['totalUnpaid'] }}, {{ $monthlyData[1]['totalUnpaid'] }},
-            {{ $monthlyData[2]['totalUnpaid'] }}, {{ $monthlyData[3]['totalUnpaid'] }},
-            {{ $monthlyData[4]['totalUnpaid'] }}, {{ $monthlyData[5]['totalUnpaid'] }},
-            {{ $monthlyData[6]['totalUnpaid'] }}, {{ $monthlyData[7]['totalUnpaid'] }},
-            {{ $monthlyData[8]['totalUnpaid'] }}, {{ $monthlyData[9]['totalUnpaid'] }},
-            {{ $monthlyData[10]['totalUnpaid'] }}, {{ $monthlyData[11]['totalUnpaid'] }}
-        ];
+       
 
         let ctx = document.getElementById('myChart').getContext('2d');
         let myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: mesi,
+                labels: labels,
                 datasets: [{
                     label: 'Pagamenti Ricevuti',
-                    data: pagamentiRicevuti,
+                    data: dataPaid,
                     backgroundColor: 'rgba(54, 162, 235, 0.5)', // Colore per le barre dei pagamenti ricevuti
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }, {
                     label: 'Spese Sostenute',
-                    data: speseSostenute,
+                    data: data,
                     backgroundColor: 'rgba(255, 99, 132, 0.5)', // Colore per le barre delle spese sostenute
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
