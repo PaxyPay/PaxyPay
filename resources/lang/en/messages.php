@@ -52,7 +52,9 @@ return [
     'profilo' => 'Profile',
     'statistiche' => 'Dashboard',
     'esci' => 'Log out',
-    'salva' => 'Save'
-
+    'salva' => 'Save',
+    'sta_richiedendo_questo_pagamento' => 'is requesting this payment',
+    'data_di_scadenza'=> 'Expiration date',
+    'descrizione prodotto/servizio' => 'product/service description'
 ];
 ?>
