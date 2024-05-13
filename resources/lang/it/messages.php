@@ -6,7 +6,7 @@ return [
     'attivi' => 'Attivi',
     'tutti' => 'Tutti',
     'disattivi' => "Disattivi",
-    'stato' => 'Stato',
+    'disattivo' => "Disattivo",
     'pagati' => 'Pagati',
     'non_pagati' => 'Non Pagati',
     'righe_per_pagine' => 'Pagamenti per Pagina',
@@ -52,6 +52,7 @@ return [
     'profilo' => 'Profilo',
     'statistiche' => 'Statistiche',
     'esci' => 'Esci',
-
+    'salva' => 'Salva'
+    
 ];
 ?>

@@ -5,7 +5,8 @@ return [
     'cerca' => 'Search',
     'attivi' => 'Actives',
     'tutti' => 'All',
-    'disattivi' => "Enabled",
+    'disattivi' => "Disabled",
+    'disattivo' => "Disabled",
     'stato' => 'Status',
     'pagati' => 'Paids',
     'non_pagati' => 'Not Paids',
@@ -51,6 +52,7 @@ return [
     'profilo' => 'Profile',
     'statistiche' => 'Dashboard',
     'esci' => 'Log out',
+    'salva' => 'Save'
 
 ];
 ?>

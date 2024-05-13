@@ -10,7 +10,7 @@
                             <div>
                                 <h3>PayPal</h3>
                                 <div class="form-check form-switch">
-                                    <label class="form-check-label" for="flexSwitchCheckpaypal">Enabled</label>
+                                    <label class="form-check-label" for="flexSwitchCheckpaypal">{{ __('messages.disattivo') }}</label>
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckpaypal" value="1" name="activePayPal"
                                         @if ($settings['payMethods']['paypal']['active'] == 1) checked @endif>
@@ -29,7 +29,7 @@
                                         value="{{ old('secret_key', isset($settings['payMethods']['paypal']['secret_key']) ? $settings['payMethods']['paypal']['secret_key'] : '') }}"
                                         name="PayPalSecretKey">
                                 </div>
-                                <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">Save</button>
+                                <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">{{ __('messages.salva') }}</button>
                             </div>
                         </div>
                     </form>
@@ -41,7 +41,7 @@
                             <div>
                                 <h3>Stripe</h3>
                                 <div class="form-check form-switch">
-                                    <label class="form-check-label" for="flexSwitchCheckStripe">Enabled</label>
+                                    <label class="form-check-label" for="flexSwitchCheckStripe">{{ __('messages.disattivo') }}</label>
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckStripe" value="1" name="active"
                                         @if ($settings['payMethods']['stripe']['active'] == 1) checked @endif>
@@ -60,7 +60,7 @@
                                         value="{{ old('private_key', isset($settings['payMethods']['stripe']['privateKey']) ? $settings['payMethods']['stripe']['privateKey'] : '') }}"
                                         name="private_key">
                                 </div>
-                                <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">Save</button>
+                                <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">{{ __('messages.salva') }}</button>
                             </div>
                         </div>
                     </form>
@@ -73,7 +73,7 @@
                             <div>
                                 <h3>Satispay</h3>
                                 <div class="form-check form-switch">
-                                    <label class="form-check-label" for="flexSwitchCheckStripe">Enabled</label>
+                                    <label class="form-check-label" for="flexSwitchCheckStripe">{{ __('messages.disattivo') }}</label>
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckStripe" value="1" name="active"
                                         @if ($settings['payMethods']['paypal']['active'] == 1) checked @endif>
@@ -92,7 +92,7 @@
                                         value="{{ old('secret_key', isset($settings['payMethods']['paypal']['secret_key']) ? $settings['payMethods']['paypal']['secret_key'] : '') }}"
                                         name="PayPalSecretKey">
                                 </div>
-                                <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">Save</button>
+                                <button type="submit" class="btn btn-success mt-4" id="saveStripeBtn">{{ __('messages.salva') }}</button>
                             </div>
                         </div>
                     </form>
@@ -101,7 +101,7 @@
             <div class="col-md-6">
                 <div class="card p-4 m-3">
                     <div>
-                        <h3>Settings</h3>
+                        <h3>{{ __('messages.settaggi') }}</h3>
                     </div>
                     <form action="{{ route('profile.updateSettings') }}" method="POST">
                         @csrf
@@ -131,7 +131,7 @@
                                 <option value="50" {{ $settings['perPage'] == '50' ? 'selected' : '' }}>50</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('messages.salva') }}</button>
                     </form>
                 </div>
             </div>

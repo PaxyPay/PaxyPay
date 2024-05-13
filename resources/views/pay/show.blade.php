@@ -56,7 +56,7 @@
                 </div>
                 <div class="card d-flex justify-content-between flex-row px-4 py-2 bg-purple">
                     <span>Totale €: </span>
-                    <span class="fw-bold">{{ $payment->total_price }}</span>
+                    <span class="fw-bold">  {{ number_format($payment->total_price, 2, ',', '.') }}</span>
                 </div>
                 <div>
                     <input class="form-check-input" type="checkbox" role="switch" id="stripeCheckbox"
