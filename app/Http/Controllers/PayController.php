@@ -20,6 +20,7 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalHttp\HttpException;
 use Illuminate\Support\Facades\Http;
+use SatispayGBusiness\Api;
 
 class PayController extends Controller
 {
@@ -149,11 +150,41 @@ class PayController extends Controller
         }
     }
     public function satispay(Request $request, Payment $payment){
-        $amount = $request->input('amount');
-        $description = $request->input('description');
 
-        // Simula la creazione del checkout
-        $checkoutUrl = 'https://staging.authservices.satispay.com/'; // Sostituisci con un URL di checkout simulato
+        $api = new Api(env('SATISPAY_KEY'), env('SATISPAY_SECRET'));
+    
+        $response = $api->createPayment([
+            'flow' => 'MATCH_CODE',
+            'amount_unit' => 100, // Importo dell'ordine in centesimi di euro
+            'currency' => 'EUR',
+            'metadata' => [
+                'order_id' => '123456', // ID dell'ordine nel tuo sistema
+            ],
+        ]);
+
+            // Controlla se la richiesta di pagamento è stata completata con successo
+        if ($response['status_code'] == 200) {
+            // Recupera il token di pagamento
+            $paymentToken = $response['payment']['payment_token'];
+
+            // Ora puoi utilizzare $paymentToken per confermare effettivamente il pagamento
+            // Utilizza $paymentToken con l'SDK Satispay per confermare il pagamento
+
+            // Ad esempio:
+            $confirmationResponse = $api->confirmPayment([
+                'payment_token' => $paymentToken,
+            ]);
+
+            // Verifica se il pagamento è stato confermato con successo
+            if ($confirmationResponse['status_code'] == 200) {
+                // Il pagamento è stato confermato con successo
+                // Puoi procedere con le azioni necessarie dopo il pagamento
+            } else {
+                // Gestisci l'errore di conferma del pagamento
+            }
+        } else {
+            // Gestisci l'errore nella creazione dell'intenzione di pagamento
+        }
     }
     public function success(Request $request)
     {
