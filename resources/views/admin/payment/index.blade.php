@@ -3,7 +3,7 @@
 @section('content')
     <div class="container p-3">
         <div class="row">
-        <p>{{ __('messages.benvenuto') }}</p>
+           
             @if (session('error'))
                 <div class="alert alert-danger d-flex justify-content-center">
                     {{ session('error') }}
@@ -17,7 +17,8 @@
             </div>
             <div class="col-md-6 d-md-flex justify-content-end">
                 <div class="">
-                    <a href="{{ route('admin.payment.create') }}" class="btn btn-primary mb-3">{{ __('messages.nuovo_pagamento') }}</a>
+                    <a href="{{ route('admin.payment.create') }}"
+                        class="btn btn-primary mb-3">{{ __('messages.nuovo_pagamento') }}</a>
                 </div>
             </div>
 
@@ -33,19 +34,25 @@
                     <div class="col-md-3">
                         <label for="active" class="form-label">{{ __('messages.attivi') }}</label>
                         <select class="form-select" aria-label="Status" id="active" name="active">
-                            <option value="" {{ request()->query('active') === null ? 'selected' : '' }}>{{ __('messages.tutti') }}
+                            <option value="" {{ request()->query('active') === null ? 'selected' : '' }}>
+                                {{ __('messages.tutti') }}
                             </option>
-                            <option value="1" {{ request()->query('active') == 1 ? 'selected' : '' }}>{{ __('messages.attivi') }}</option>
-                            <option value="2" {{ request()->query('active') == 2 ? 'selected' : '' }}>{{ __('messages.disattivi') }}</option>
+                            <option value="1" {{ request()->query('active') == 1 ? 'selected' : '' }}>
+                                {{ __('messages.attivi') }}</option>
+                            <option value="2" {{ request()->query('active') == 2 ? 'selected' : '' }}>
+                                {{ __('messages.disattivi') }}</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label for="paid" class="form-label">{{ __('messages.stato') }}</label>
                         <select class="form-select" aria-label="Paid" id="paid" name="paid">
-                            <option value="" {{ request()->query('paid') === null ? 'selected' : '' }}>{{ __('messages.tutti') }}
+                            <option value="" {{ request()->query('paid') === null ? 'selected' : '' }}>
+                                {{ __('messages.tutti') }}
                             </option>
-                            <option value="paid" {{ request()->query('paid') == 'paid' ? 'selected' : '' }}>{{ __('messages.pagati') }}</option>
-                            <option value="not_paid" {{ request()->query('paid') == 'not_paid' ? 'selected' : '' }}>{{ __('messages.non_pagati') }}</option>
+                            <option value="paid" {{ request()->query('paid') == 'paid' ? 'selected' : '' }}>
+                                {{ __('messages.pagati') }}</option>
+                            <option value="not_paid" {{ request()->query('paid') == 'not_paid' ? 'selected' : '' }}>
+                                {{ __('messages.non_pagati') }}</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -203,8 +210,9 @@
                                     </th>
                                     <th scope="col" class="text-end ">
                                         <a class="{{ $settings['orderBy'] == 'total_price' ? 'badge text-bg-primary text-wrap fs-10' : '' }}"
-                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'total_price', 'order' => $settings['orderBy'] == 'total_price' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.prezzo_totale') }} €
-                                            
+                                            href="{{ route('admin.payment.index', array_merge(request()->query(), ['column' => 'total_price', 'order' => $settings['orderBy'] == 'total_price' && $settings['orderFor'] == 'ASC' ? 'DESC' : 'ASC'])) }}">{{ __('messages.prezzo_totale') }}
+                                            €
+
                                             @if ($settings['orderBy'] == 'total_price')
                                                 @if ($settings['orderFor'] == 'ASC')
                                                     <i class="fas fa-arrow-up"></i>
@@ -298,13 +306,15 @@
                                                         <a class="btn btn-primary bottoneCondividi dropdown-item"
                                                             onclick="copy(event)"
                                                             token="{{ env('APP_URL') }}/pay/{{ $payment->token }}">
-                                                            <i class="fa-solid fa-share-nodes"></i> {{ __('messages.condividi') }}
+                                                            <i class="fa-solid fa-share-nodes"></i>
+                                                            {{ __('messages.condividi') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="{{ route('admin.payment.copyCreate', $payment) }}"
                                                             class="btn btn-primary dropdown-item"><i
-                                                                class="fa-regular fa-clone"></i> {{ __('messages.clona') }}
+                                                                class="fa-regular fa-clone"></i>
+                                                            {{ __('messages.clona') }}
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -392,6 +402,10 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
+            function changeLocale(locale) {
+                // Aggiorna il valore della select e invia il modulo
+                document.getElementById('languageForm').submit();
+            }
             document.getElementById('perPage').addEventListener('change', function() {
                 form.submit();
             });
