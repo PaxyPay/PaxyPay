@@ -51,7 +51,14 @@
                             <a class="nav-link" href="{{url('/') }}">{{ __('Home') }}</a>
                         </li> --}}
                     </ul>
-
+                    <form id="languageForm" action="{{ route('changeLanguage') }}" method="POST">
+                        @csrf
+                        <select name="locale" onchange="this.form.submit()" class="form-select">
+                            <option value="it" {{ session('locale', 'it') === 'it' ? 'selected' : '' }}>Italian</option>
+                            <option value="en" {{ session('locale', 'it') === 'en' ? 'selected' : '' }}>English</option>
+                        </select>
+                    </form>
+              
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

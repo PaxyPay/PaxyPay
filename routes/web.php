@@ -5,8 +5,12 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\LanguageController;
+use Illuminate\Http\Request;
 /*
+
     File::link($target, $link);
  
 |--------------------------------------------------------------------------
@@ -59,4 +63,23 @@ Route::post('pay/satispay/{payment}', [PayController::class, 'satispay'])->name(
 Route::get('success', [PayController::class, 'success'])->name('success');
 
 // Route::get('email/payment_confirmation', [PaymentReceived::class, 'build'])->name(+)
+
+
+
+
+
+Route::post('change-language', function (Request $request) {
+    $locale = $request->input('locale');
+    $lenguageENV = env('APP_LOCALE');
+    $lenguage = $locale;
+    // Assicurati che il locale sia valido
+    if (in_array($locale, ['it', 'en'])) {
+        // Imposta il locale nella sessione e nell'applicazione
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+        $lenguageENV = $locale;
+    }
+    return back();
+})->name('changeLanguage');
+
 require __DIR__.'/auth.php';
