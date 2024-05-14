@@ -185,8 +185,8 @@
                             const payloadResponse = await response.json();
                             if(payloadResponse.status == "COMPLETED"){
                                 isCompleted = true;
+                                window.location.href = '/pay.success';
                             }
-                            {{ route('pay.success')}}
                         }
                     }catch(e){
                         console.log(e);
