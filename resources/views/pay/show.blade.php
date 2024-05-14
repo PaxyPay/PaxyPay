@@ -149,24 +149,6 @@
             const clientSecret = 'EMWW60COgp5_7KeDfF1c6l1nlKwxdxUOTUXzBBCnCxAEsadM4AEAZX8QbHP-VdvECRXGF_qKD-LOmaz_';
             let accessToken = '';
             paypal.Buttons({
-                async createOrder() {
-                    // const response = await fetch('https://paxypay.com/api/createOrder', {
-                    const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            cart: [{
-                                sku: "10",
-                                quantity: "1",
-                            }]
-                        })
-                    });
-
-                    const order = await response.json();
-                    return order.id;
-                },
                 async getAccessToken(clientId, clientSecret) {
                     const url = 'https://api-m.sandbox.paypal.com/v1/oauth2/token';
                     const credentials = btoa(`${clientId}:${clientSecret}`);
@@ -194,7 +176,24 @@
                         return null;
                     }
                 },
-              
+                async createOrder() {
+                    // const response = await fetch('https://paxypay.com/api/createOrder', {
+                    const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            cart: [{
+                                sku: "10",
+                                quantity: "1",
+                            }]
+                        })
+                    });
+
+                    const order = await response.json();
+                    return order.id;
+                },
                 onApprove: async function(data, actions,) {
                     
                     try {
