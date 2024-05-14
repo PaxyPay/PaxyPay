@@ -81,7 +81,7 @@
                                 <button class="btn btn-success m-2" type="submit">Paga con Carta</button>
                             @endif
                         </form>
-                        <div id="paypal-button-container">
+                        <div class="mt-2" id="paypal-button-container">
 
                         </div>
 
@@ -162,44 +162,41 @@
                 onApprove: async function(data, actions) {
 
                     let isCompleted = false;
-                    try{
+                    try {
 
-                        const response = 
+                        const response =
                             await fetch(
-                                'https://webservice.paxypay.com/api/onApprove', 
-                                {
+                                'https://webservice.paxypay.com/api/onApprove', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
                                     },
-                                    body: JSON.stringify(
-                                        {
-                                            orderID: data.orderID,
-                                            paymentId : {{$payment->id}}
-                                        }
-                                    )
+                                    body: JSON.stringify({
+                                        orderID: data.orderID,
+                                        paymentId: {{ $payment->id }}
+                                    })
                                 }
                             );
-                        if(response.status == 200){
+                        if (response.status == 200) {
                             const payloadResponse = await response.json();
-                            if(payloadResponse.status == "COMPLETED"){
+                            if (payloadResponse.status == "COMPLETED") {
                                 isCompleted = true;
                                 window.location.href = '/success';
                             }
-                        }else if(response.status == 500){
+                        } else if (response.status == 500) {
                             const payloadResponse = await response.json();
-                            
-                                isCompleted = false;
-                                alert('PAGAMENTO GIA PAGATO')
-                            
-                        }
-                    }catch(e){
-                        console.log(e);
-                    }finally{
 
-                        if(isCompleted){
+                            isCompleted = false;
+                            alert('PAGAMENTO GIA PAGATO')
+
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    } finally {
+
+                        if (isCompleted) {
                             // Completato
-                        }else{
+                        } else {
                             // Non completato
                         }
                     }
@@ -208,7 +205,7 @@
                     console.error('An error occurred:', err);
                     alert('An error occurred during the transaction. Please try again.');
                 },
-            
+
             }).render('#paypal-button-container');
         });
     </script>
