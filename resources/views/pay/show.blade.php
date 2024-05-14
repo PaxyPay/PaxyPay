@@ -144,7 +144,6 @@
         document.addEventListener("DOMContentLoaded", (event) => {
             paypal.Buttons({
                 async createOrder() {
-                    // const response = await fetch('https://paxypay.com/api/createOrder', {
                     const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
                         method: "POST",
                         headers: {
@@ -186,7 +185,6 @@
                             const payloadResponse = await response.json();
                             if(payloadResponse.status == "COMPLETED"){
                                 isCompleted = true;
-                                alert("Transazione chiusa e completata dall'utente " + payloadResponse.payer.name.giver_name);
                             }
                         }
 
@@ -194,7 +192,6 @@
                         console.log(e);
                     }finally{
 
-                        alert(isCompleted);
                         if(isCompleted){
                             // Completato
                         }else{
