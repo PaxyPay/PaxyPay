@@ -142,85 +142,37 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
+            paypal.Buttons({
+                async createOrder() {
+                    // const response = await fetch('https://paxypay.com/api/createOrder', {
+                    const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            cart: [{
+                                sku: "10",
+                                quantity: "1",
+                            }]
+                        })
+                    });
 
-            const clientId = 'ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE';
-            const clientSecret = 'EMWW60COgp5_7KeDfF1c6l1nlKwxdxUOTUXzBBCnCxAEsadM4AEAZX8QbHP-VdvECRXGF_qKD-LOmaz_';
-            let accessToken = '';
-            async getAccessToken(clientId, clientSecret) {
-                    const url = 'https://api-m.sandbox.paypal.com/v1/oauth2/token';
-                    const credentials = btoa(`${clientId}:${clientSecret}`);
-
-                    try {
-                        const response = await fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'Authorization': `Basic ${credentials}`
-                            },
-                            body: 'grant_type=client_credentials'
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`Error obtaining access token: ${response.statusText}`);
-                        }
-
-                        const data = await response.json();
-                        accessToken = data.access_token;
-                        console.log(accessToken);
-                        return data.access_token;
-                    } catch (error) {
-                        console.error('Error:', error);
-                        return null;
-                    }
+                    const order = await response.json();
+                    return order.id;
                 },
-                paypal.Buttons({
-
-                    async createOrder() {
-                        // const response = await fetch('https://paxypay.com/api/createOrder', {
-                        const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                cart: [{
-                                    sku: "10",
-                                    quantity: "1",
-                                }]
-                            })
+                async onApprove(data) {
+                    const response = await fetch('https://webservice.paxypay.com/api/onApprove', {
+                        method: "POST",
+                        body: JSON.stringify({
+                            orderID: data.orderID
                         });
-
-                        const order = await response.json();
-                        return order.id;
-                    },
-                    onApprove: async function(data, actions, ) {
-
-                        try {
-                            const orderID = data.orderID;
-                            const accessToken = await getAccessToken();
-                            const response = await fetch(
-                                `https://api-m.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${accessToken}`
-                                    },
-                                    body: JSON.stringify({})
-                                });
-
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-
-                            const data = await response.json();
-                            console.log('Order captured successfully:', data);
-                            // Gestisci la logica di successo qui
-                        } catch (error) {
-                            console.error('Error capturing order:', error);
-                            alert('There was an error processing your payment. Please try again.');
-                        }
-                    }
-                }).render('#paypal-button-container');
+                    });
+                    console.log(response);
+                    const details = await response.json();
+                    alert('Transaction completed')
+                }
+            }).render('#paypal-button-container');
 
         });
     </script>
