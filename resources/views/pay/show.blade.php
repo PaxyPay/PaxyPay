@@ -180,7 +180,7 @@
                         );
 
                     const payloadResponse = await response.json();
-                    alert(payloadResponse);
+                    alert(JSON.stringify(payloadResponse));
 
                     // return actions.order.capture().then(function(details) {
                     //     console.log('Transaction completed by ' + details.payer.name
