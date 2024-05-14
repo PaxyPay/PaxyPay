@@ -187,9 +187,12 @@
                                 isCompleted = true;
                                 window.location.href = '/pay/success';
                             }
-                        }else if(response.status == 453){
-                            isCompleted = false;
-                            alert('PAGAMENTO GIA PAGATO')
+                        }else if(response.status == 500){
+                            const payloadResponse = await response.json();
+                            
+                                isCompleted = false;
+                                alert('PAGAMENTO GIA PAGATO')
+                            
                         }
                     }catch(e){
                         console.log(e);
