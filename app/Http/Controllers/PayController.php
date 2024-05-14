@@ -88,66 +88,6 @@ class PayController extends Controller
             return redirect()->away($session->url);
         }
     }
-    public function paypal(Request $request, Payment $payment)
-    {
-        $user = $payment->user;
-        $settings = json_decode($user->settings, true);
-
-        if ($settings['payMethods']['paypal']['active'] == 1) {
-            $settings = json_decode($user->settings, true);
-
-            $client = new Client();
-
-            $clientId = $settings['payMethods']['paypal']['client_id'];
-            $clientSecret = $settings['payMethods']['paypal']['secret_key'];
-
-            // Effettua la richiesta POST per ottenere il token di autenticazione
-            $response = $client->post('https://api.sandbox.paypal.com/v1/oauth2/token', [
-                'form_params' => [
-                    'grant_type' => 'client_credentials',
-                ],
-                'headers' => [
-                    'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ],
-            ]);
-
-            $body = $response->getBody()->getContents();
-            $data = json_decode($body);
-
-            $accessToken = $data->access_token;
-            $baseUrl = env('APP_URL');
-            // Effettua la richiesta POST per creare l'ordine di pagamento
-            $response = Http::withBasicAuth($clientId, $clientSecret)
-                ->post('https://api.sandbox.paypal.com/v2/checkout/orders', [
-                    'intent' => 'CAPTURE',
-                    'purchase_units' => [
-                        [
-                            'amount' => [
-                                'currency_code' => 'EUR',
-                                'value' => $payment->total_price,
-                            ],
-                        ],
-
-                    ],
-                    'application_context' => [
-                        'return_url' => $baseUrl .'/success',
-                        'cancel_url' => 'https://example.com/checkout/cancel',
-                    ],
-                ]);
-
-            if ($response->successful()) {
-                $order = $response->json();
-                $orderId = $order['id'];
-                $request->session()->put('payment_id', $payment->id);
-                return redirect($order['links'][1]['href']);
-            } else {
-                // Gestisci l'errore
-                return $response->body();
-            }
-            
-        }
-    }
     public function satispay(Request $request, Payment $payment){
         $amount = $request->input('amount');
         $description = $request->input('description');
