@@ -183,11 +183,10 @@
                             );
                         if(response.status == 200){
                             const payloadResponse = await response.json();
-                            
                             if(payloadResponse.status == "COMPLETED"){
                                 isCompleted = true;
-                               
                             }
+                            {{ route('pay.success')}}
                         }
                     }catch(e){
                         console.log(e);
