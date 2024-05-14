@@ -183,8 +183,10 @@
                         
                         if(response.status == 200){
                             const payloadResponse = await response.json();
+                            
                             if(payloadResponse.status == "COMPLETED"){
                                 isCompleted = true;
+                                alert('Pagamento pagato con successo da ' + payloadResponse.payer.name.given_name);
                             }
                         }
 
