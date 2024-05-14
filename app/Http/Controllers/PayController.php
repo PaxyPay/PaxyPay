@@ -160,10 +160,6 @@ class PayController extends Controller
         if($request->session()->has('payment_id')){
             $paymentId = $request->session()->get('payment_id');
             $payment = Payment::find($paymentId);
-        }
-        
-
-        if ($paymentId) {
             $payment = Payment::find($paymentId);
 
             $user = $payment->user;
@@ -205,6 +201,11 @@ class PayController extends Controller
 
                 // Visualizza la vista di successo
                 return view('pay.success', compact('payment'));
+        
         }
+        
+
+        
+       
     }
 }
