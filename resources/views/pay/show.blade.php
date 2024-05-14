@@ -141,7 +141,13 @@
     </script>
 
     <script>
+
+
         document.addEventListener("DOMContentLoaded", (event) => {
+
+            const clientId = 'ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE';
+            const clientSecret = 'EMWW60COgp5_7KeDfF1c6l1nlKwxdxUOTUXzBBCnCxAEsadM4AEAZX8QbHP-VdvECRXGF_qKD-LOmaz_';
+            let accessToken = '';
             paypal.Buttons({
                 async createOrder() {
                     // const response = await fetch('https://paxypay.com/api/createOrder', {
@@ -161,7 +167,35 @@
                     const order = await response.json();
                     return order.id;
                 },
-                onApprove: async function(data, actions) {
+                async getAccessToken(clientId, clientSecret) {
+                    const url = 'https://api-m.sandbox.paypal.com/v1/oauth2/token';
+                    const credentials = btoa(`${clientId}:${clientSecret}`);
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'Authorization': `Basic ${credentials}`
+                            },
+                            body: 'grant_type=client_credentials'
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`Error obtaining access token: ${response.statusText}`);
+                        }
+
+                        const data = await response.json();
+                        accessToken = data.access_token;
+                        return data.access_token;
+                    } catch (error) {
+                        console.error('Error:', error);
+                        return null;
+                    }
+                },
+                
+                onApprove: async function(data, actions,) {
+                    
                     try {
                         const orderID = data.orderID;
                         const accessToken = await getAccessToken();
