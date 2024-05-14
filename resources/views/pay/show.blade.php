@@ -156,7 +156,6 @@
                             }]
                         })
                     });
-
                     const order = await response.json();
                     return order.id;
                 },
