@@ -184,7 +184,7 @@
                             const payloadResponse = await response.json();
                             if(payloadResponse.status == "COMPLETED"){
                                 isCompleted = true;
-                                window.location.href = '/pay/success';
+                                window.location.href = '/success';
                             }
                         }else if(response.status == 500){
                             const payloadResponse = await response.json();
