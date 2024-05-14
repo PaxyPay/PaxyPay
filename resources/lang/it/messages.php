@@ -71,7 +71,14 @@ return [
     'indietro'=> 'Indietro',
     'aggiungi_prodotto' => 'Aggiungi Prodotto',
     'carrello'=>'Carrello',
-    'pagina_corrente'=> 'Pagina Corrente'
-
+    'pagina_corrente'=> 'Pagina Corrente',
+    'indirizzo_email'=> 'Indirizzo Email',
+    'ricordami' => 'Ricordami',
+    'dimenticata_la_password'=> 'Dimenticata la Password?',
+    'reset_pass'=> 'Mandami Link Di Reset',
+    'messaggio_invio_link'=> 'Ti abbiamo inviato via email il link per la reimpostazione della password.',
+    'annulla'=> 'Annulla',
+    'conferma_eliminazione'=> 'Conferma Eliminazione',
+    'sicuro_di_eliminare_pagamento'=> 'Sei sicuro di voler eliminare questo pagamento?'
 ];
 ?>

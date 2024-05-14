@@ -71,7 +71,14 @@ return [
     'crea'=> 'Create',
     'indietro'=> 'Back',
     'aggiungi_prodotto' => 'Add Product',
-    'pagina_corrente'=> 'Current Page'
-
+    'pagina_corrente'=> 'Current Page',
+    'indirizzo_email'=> 'Email Address',
+    'ricordami' => 'Remember Me',
+    'dimenticata_la_password'=> 'Forgot Your Password?',
+    'reset_pass'=> 'Send Password Reset Link',
+    'messaggio_invio_link'=> 'We have emailed your password reset link.',
+    'annulla'=> 'Cancel',
+    'conferma_eliminazione'=> 'Confirm Deletion',
+    'sicuro_di_eliminare_pagamento'=> 'Are you sure you want to delete this payment?'
 ];
 ?>

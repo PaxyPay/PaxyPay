@@ -1,50 +1,66 @@
 @extends('layouts.app')
 @section('content')
+        <style>
+                    /* Stile per l'overlay */
+            #overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                /* Opacità del 50% */
+                z-index: 999;
+                /* Assicura che l'overlay sia sopra gli altri elementi */
+                display: none;
+                /* Inizialmente nascosto */
+            }
+        </style>
     <div class="container">
         <div class="row mt-3 mb-3 justify-content-center">
             <div class="col-12">
                 <div class="card p-2 p-md-5">
                 {{--  Modale --}}
                     <div id="overlay"></div>
-                    <div class="modal" tabindex="-1" id="modal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Conferma eliminazione</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Sei sicuro di voler eliminare questo pagamento?
-                            </div>
-                            <div class="modal-footer">
-                                <button onclick="closeModal()" type="button" id="closeModal" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Annulla</button>
-                                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Elimina</button>
+                    <div class="modal"  id="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('messages.conferma_eliminazione')}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close" onclick="closeModal()"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ __('messages.sicuro_di_eliminare_pagamento')}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button onclick="closeModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        >{{ __('messages.annulla') }}</button>
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">{{ __('messages.elimina') }}</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
 
                     <form action="{{ route('admin.payment.update', $payment->id) }}" method="POST" class=""enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="mb-3">
-                            <label for="client_name" class="form-label">Client Name</label>
+                            <label for="client_name" class="form-label">{{ __('messages.nome') }}</label>
                             <input type="text" class="form-control" id="client_name"
                                 value="{{ old('client_name', $payment->client_name) }}" name="client_name">
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">{{ __('messages.descrizione') }}</label>
                             <textarea class="form-control" id="description" rows="4" value="" name="description">{{ old('description', $payment->description) }}</textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="due_date">Due Date</label>
+                            <label for="due_date">{{ __('messages.due_date') }}</label>
                             <input type="datetime-local" class="form-control" id="due_date" name="due_date"
                                 value="{{ old('due_date', $payment->due_date) }}" min="{{ now()->addHours(2)->format('Y-m-d\TH')}}">
                         </div>
                         <div class="form-check form-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('messages.attivo') }}</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                                 value="{{ old('active', $payment->active) }}" {{ $payment->active == 1 ? 'checked' : '' }}
                                 name="active">
@@ -52,11 +68,11 @@
 
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h3 class="p-3">Cart</h3>
+                                <h3 class="p-3">{{ __('messages.carrello') }}</h3>
                             </div>
 
                             <div class="d-flex flex-row-reverse">
-                                <button type="button" id="addProductBtn" class="btn btn-success add">+ Add Product</button>
+                                <button type="button" id="addProductBtn" class="btn btn-success add">+ {{ __('messages.aggiungi_prodotto') }}</button>
                             </div>
                         </div>
                         @if ($errors->any())
@@ -78,14 +94,14 @@
                                             <button type="button" class="removeProductBtn delete-product btn btn-danger"><i class="fas fa-times-circle"></i></button>
                                             <div class="align-items-center row justify-content-between">
                                                 <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
-                                                    <label for="product_name" class="form-label mx-2">Name</label>
+                                                    <label for="product_name" class="form-label mx-2">{{ __('messages.nome') }}</label>
                                                     <input type="text" class="form-control refresh name"
                                                         name="products[{{ $i }}][product_name]"
                                                         value="{{ old('product_name[]', $product->product_name) }}"
                                                         id="product_name">
                                                 </div>
                                                 <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
-                                                    <label for="quantity" class="form-label mx-2">Quantity</label>
+                                                    <label for="quantity" class="form-label mx-2">{{ __('messages.quantita') }}</label>
                                                     <select type="number" class="form-control refresh quantity"
                                                         name="products[{{ $i }}][quantity]" id="quantity_select">
                                                         @for ($j = 1; $j <= 100; $j++)
@@ -96,7 +112,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
-                                                    <label for="product_price" class="form-label mx-2">Price : &euro;</label>
+                                                    <label for="product_price" class="form-label mx-2">{{ __('messages.prezzo') }} : &euro;</label>
                                                     <input type="number" class="form-control refresh price control" step="0.01" min="1"
                                                         name="products[{{ $i }}][product_price]"
                                                         onchange="updateTotalPrice()"
@@ -114,14 +130,14 @@
                             <div class="px-3">
                                 <div class="d-flex justify-content-end flex-column align-items-end">
                                     <div class="d-flex no-wrap">
-                                        <h4>Total Price : <span id="total_price"></span> &euro;</h4>
+                                        <h4>{{ __('messages.prezzo_totale') }}: <span id="total_price"></span> &euro;</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-5">
-                            <a class="btn btn-secondary" href="{{ route('admin.payment.index') }}"><-back </a>
-                            <button type="submit" id='submit' class="btn btn-primary mx-3">Edit</button>
+                            <a class="btn btn-secondary" href="{{ route('admin.payment.index') }}"><-{{ __('messages.indietro') }} </a>
+                            <button type="submit" id='submit' class="btn btn-primary mx-3">{{ __('messages.modifica') }}</button>
                         </div>
                     </form>
                     <div class="col-6 col-md-3 my-3">
@@ -129,7 +145,7 @@
                         @csrf
                         @method('DELETE')
                             <div>
-                            <a id="button_delete" class="btn btn-danger w-100 form-delete-btn">Delete</a>
+                            <a id="button_delete" class="btn btn-danger w-100 form-delete-btn">{{ __('messages.elimina') }}</a>
                             </div>
                         </form>
                     </div>
@@ -140,6 +156,11 @@
     </div>
 
     <script>
+              function closeModal() {
+                overlay.style.display = 'none';
+                modal.style.display = 'none';
+
+            }
         document.addEventListener("DOMContentLoaded", (event) => {
             updateTotalPrice()
             let sectionCount = document.getElementById('productSections');
@@ -182,13 +203,13 @@
                         <button type="button" class="removeProductBtn delete-product btn btn-danger"><i class="fas fa-times-circle"></i></button>
                             <div class="align-items-center row justify-content-between">
                                 <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
-                                    <label for="product_name" class="form-label  mx-2">Name</label>
+                                    <label for="product_name" class="form-label  mx-2">{{ __('messages.nome') }}</label>
                                     <input type="text" class="form-control refresh"
                                         name="products[${index}][product_name]"
                                         value="{{ old('products.${index}.product_name') }}">
                                 </div>
                                 <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
-                                    <label for="quantity" class="form-label  mx-2">Quantity</label>
+                                    <label for="quantity" class="form-label  mx-2">{{ __('messages.quantita') }}</label>
                                     <select type="number" class="form-control refresh quantity" name="products[${index}][quantity]">
                                         @for ($j = 1; $j <= 100; $j++)
                                         <option value="{{ $j }}" >{{ $j }}</option>
@@ -196,7 +217,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
-                                    <label for="product_price" class="form-label mx-2">Price : &euro;</label>
+                                    <label for="product_price" class="form-label mx-2">{{ __('messages.prezzo') }} : &euro;</label>
                                     <input type="number" class="form-control refresh price control " step="0.01"
                                         name="products[${index}][product_price]" onchange="updateTotalPrice()"
                                         value="{{ old('products.${index}.product_price') }}">
@@ -236,7 +257,7 @@
                 } else {
                     document.getElementById("total_price").innerHTML = totalPrice.toFixed(2);
                 }
-                console.log(totalPrice)
+                // console.log(totalPrice)
                 if (totalPrice === 0) {
                     document.getElementById("total_price").innerHTML = 0 .toFixed(2);
                 }
@@ -258,11 +279,7 @@
                 form.submit();
             })
 
-            function closeModal() {
-                overlay.style.display = 'none';
-                modal.style.display = 'none';
-
-            }
+      
 
             // Aggiungi un listener per l'evento "input" su tutti gli input e textarea
             document.querySelectorAll('input, textarea').forEach(function(element) {
