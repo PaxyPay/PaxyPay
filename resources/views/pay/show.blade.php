@@ -163,59 +163,52 @@
                 },
                 onApprove: async function(data, actions) {
 
-                    const response = 
-                        await fetch(
-                            'https://webservice.paxypay.com/api/onApprove', 
-                            {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(
-                                    {
-                                        orderID: data.orderID
-                                    }
-                                )
+                    let isCompleted = false;
+                    try{
+
+                        const response = 
+                            await fetch(
+                                'https://webservice.paxypay.com/api/onApprove', 
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(
+                                        {
+                                            orderID: data.orderID
+                                        }
+                                    )
+                                }
+                            );
+                        
+                        if(response.status == 200){
+                            const payloadResponse = await response.json();
+                            if(payloadResponse.status == "COMPLETED"){
+                                isCompleted = true;
+                                alert("Transazione chiusa e completata dall'utente " + payloadResponse.payer.name.giver_name);
                             }
-                        );
+                        }
 
-                    const payloadResponse = await response.json();
-                    alert(JSON.stringify(payloadResponse));
+                    }catch(e){
+                        console.log(e);
+                    }finally{
 
-                    // return actions.order.capture().then(function(details) {
-                    //     console.log('Transaction completed by ' + details.payer.name
-                    //         .given_name);
+                        alert(isCompleted);
+                        if(isCompleted){
+                            // Completato
+                        }else{
+                            // Non completato
+                        }
 
-                    //     // Effettua una richiesta al server per catturare l'ordine
-                    //     fetch('https://webservice.paxypay.com/api/onApprove', {
-                    //         method: 'post',
-                    //         headers: {
-                    //             'content-type': 'application/json'
-                    //         },
-                    //         body: JSON.stringify({
-                    //             orderID: data.orderID
-                    //         })
-                    //     }).then(function(response) {
-                    //         if (!response.ok) {
-                    //             return response.text().then(text => {
-                    //                 throw new Error(text)
-                    //             });
-                    //         }
-                    //         return response.json();
-                    //     }).then(function(orderData) {
-                    //         console.log('Order captured successfully:', orderData);
-                    //     }).catch(function(error) {
-                    //         console.error('Error capturing order:', error);
-                    //         alert(
-                    //             'There was an error capturing the order. Please try again.'
-                    //             );
-                    //     });
-                    // });
+                    }
+
                 },
                 onError: function(err) {
                     console.error('An error occurred:', err);
                     alert('An error occurred during the transaction. Please try again.');
-                }
+                },
+            
             }).render('#paypal-button-container');
         });
     </script>
