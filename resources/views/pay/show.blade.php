@@ -1,8 +1,10 @@
 @extends('layouts.client')
 @section('content')
+    <div class="background background1 visible"></div>
+    <div class="background background2"></div>
 
     <div class="container mt-5 p-4 max-container">
-        <div class="row">
+        <div class="row p-md-5 p-2 glass">
             @if (
                 $payment &&
                     $payment->active == 1 &&
@@ -66,37 +68,19 @@
                     <input class="form-check-input" type="checkbox" role="switch" id="stripeCheckbox" value="1"
                         name="police" required>
                     <label for="">Accetto le policy d'uso e privacy (click per info)</label>
-
                 </div>
                 <div class="d-flex justify-content-center">
-                    <div class="m-3 d-flex justify-content-center ">
+                    <div class="m-3 d-flex justify-content-center flex-column align-items-center">
                         <form action="{{ route('pay.stripe', $payment->id) }}" method="POST"
                             onsubmit="return checkStripeCheckbox()">
                             @csrf
-                            <div class="mt-2">
-
-                            </div>
+                            <div class="mt-2"></div>
                             @if ($settings['payMethods']['stripe']['active'] == 0)
                             @else
                                 <button class="btn btn-success m-2" type="submit">Paga con Carta</button>
                             @endif
                         </form>
-                        <div class="mt-2" id="paypal-button-container">
-
-                        </div>
-
-
-                        <form action="{{ route('pay.satispay', $payment->id) }}" method="POST"
-                            onsubmit="return checkStripeCheckbox()">
-                            @csrf
-                            <div class="mt-2">
-
-                            </div>
-                            @if ($settings['payMethods']['paypal']['active'] == 0)
-                            @else
-                                <button class="btn btn-danger  m-2" type="submit">Satispay</button>
-                            @endif
-                        </form>
+                        <div class="mt-2" id="paypal-button-container"></div>
                         @if ($settings['payMethods']['stripe']['active'] == 0 && $settings['payMethods']['paypal']['active'] == 0)
                             <div>
                                 <span class="btn btn-danger ">NESSUN METODO DI PAGAMENTO DISPONIBILE</span>
@@ -116,11 +100,24 @@
     </div>
 
 
+
+
+
+
     <style>
         .card {
             background-color: hsl(257.14deg 35% 92.16%) !important;
             border-radius: 25px;
             border: none;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         th,
@@ -134,6 +131,46 @@
         .bg-purple {
             background-color: hsl(256.36deg 37.29% 53.73%) !important;
         }
+
+        /* body {
+                            background-image: url('https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+                        } */
+
+                        body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 0;
+}
+
+.visible {
+    opacity: 1;
+    z-index: 1;
+}
+
+.hidden {
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 2; /* Ensures the container is above the background */
+   
+}
     </style>
 
     <script
@@ -142,7 +179,49 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
+            const images = [
+                'https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1714572877812-7b416fbd4314?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://plus.unsplash.com/premium_photo-1667428818562-fc8379f23bfe?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1715646528606-1f0a4f2db091?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1683610959796-b5eda734af7d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1715673336295-9487981ab5fd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1715607347255-8ab4816bf923?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1714987524876-f5f3cc746013?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1700234272590-9202ed1758c3?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1715514922735-f5020e67f98a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            ];
+
+            let currentIndex = 0;
+            let currentBackground = 1;
+            const background1 = document.querySelector('.background1');
+            const background2 = document.querySelector('.background2');
+
+            function changeBackground() {
+                currentIndex = (currentIndex + 1) % images.length;
+                const nextBackground = currentBackground === 1 ? background2 : background1;
+                const currentVisible = currentBackground === 1 ? background1 : background2;
+
+                nextBackground.style.backgroundImage = `url(${images[currentIndex]})`;
+                nextBackground.classList.add('visible');
+                currentVisible.classList.remove('visible');
+
+                currentBackground = currentBackground === 1 ? 2 : 1;
+            }
+
+            // Initialize the background
+            background1.style.backgroundImage = `url(${images[currentIndex]})`;
+            background1.classList.add('visible');
+
+            // Change the background every 6 seconds
+            setInterval(changeBackground, 20000);
             paypal.Buttons({
+                style: {
+                layout: 'vertical',   // Layout verticale
+                color: 'gold',        // Colore del pulsante (oro)
+                shape: 'rect',        // Forma del pulsante (rettangolare)
+                label: 'paypal'       // Etichetta del pulsante (PayPal)
+            },
                 async createOrder() {
                     const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
                         method: "POST",

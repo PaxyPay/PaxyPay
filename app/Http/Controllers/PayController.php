@@ -145,7 +145,8 @@ class PayController extends Controller
                 // Visualizza la vista di successo
                 return view('pay.success', compact('payment'));
         
-        } 
+        }
+        
         return view('pay.success');
     }
 }
