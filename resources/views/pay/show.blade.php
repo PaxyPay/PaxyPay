@@ -187,13 +187,14 @@
 
                         const data = await response.json();
                         accessToken = data.access_token;
+                        console.log(accessToken);
                         return data.access_token;
                     } catch (error) {
                         console.error('Error:', error);
                         return null;
                     }
                 },
-                
+              
                 onApprove: async function(data, actions,) {
                     
                     try {
