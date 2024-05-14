@@ -184,7 +184,7 @@
                         if(response.status == 200){
                             const payloadResponse = await response.json();
                             if(payloadResponse.status == "COMPLETED"){
-                                isCompleted = alert('Pagamento andato a buon fine' + details.payer.name.given_name);
+                                isCompleted = true;
                             }
                         }
 
