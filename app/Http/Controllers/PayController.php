@@ -26,7 +26,7 @@ class PayController extends Controller
     public function show($token)
     {
         $payment = Payment::where('token', $token)->first();
-        $payment->views += 1;
+        // $payment->views += 1;
         $payment->save();
         $user = $payment->user;
         $settings = json_decode($user->settings, true);
