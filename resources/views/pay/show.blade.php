@@ -161,16 +161,40 @@
                     const order = await response.json();
                     return order.id;
                 },
-                async onApprove(data) {
-                    const response = await fetch('https://webservice.paxypay.com/api/onApprove', {
-                        method: "POST",
-                        body: JSON.stringify({
-                            orderID: data.orderID
-                        })
-                    })
-                    console.log(response);
-                    const details = await response.json();
-                    alert('Transaction completed')
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        console.log('Transaction completed by ' + details.payer.name
+                            .given_name);
+
+                        // Effettua una richiesta al server per catturare l'ordine
+                        fetch('https://webservice.paxypay.com/api/onApprove', {
+                            method: 'post',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                orderID: data.orderID
+                            })
+                        }).then(function(response) {
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    throw new Error(text)
+                                });
+                            }
+                            return response.json();
+                        }).then(function(orderData) {
+                            console.log('Order captured successfully:', orderData);
+                        }).catch(function(error) {
+                            console.error('Error capturing order:', error);
+                            alert(
+                                'There was an error capturing the order. Please try again.'
+                                );
+                        });
+                    });
+                },
+                onError: function(err) {
+                    console.error('An error occurred:', err);
+                    alert('An error occurred during the transaction. Please try again.');
                 }
             }).render('#paypal-button-container');
         });
