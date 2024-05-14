@@ -166,8 +166,8 @@
                         method: "POST",
                         body: JSON.stringify({
                             orderID: data.orderID
-                        });
-                    });
+                        })
+                    })
                     console.log(response);
                     const details = await response.json();
                     alert('Transaction completed')
