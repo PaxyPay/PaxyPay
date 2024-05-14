@@ -161,16 +161,31 @@
                     const order = await response.json();
                     return order.id;
                 },
-                async onApprove(data) {
-                    const response = await fetch('https://webservice.paxypay.com/api/onApprove', {
-                        method: "POST",
-                        body: JSON.stringify({
-                            orderID: data.orderID
-                        })
-                    })
-                    console.log(response)
-                    const details = await response.json();
-                    alert('Transaction completed')
+                onApprove: async function(data, actions) {
+                    try {
+                        const orderID = data.orderID;
+                        const accessToken = await getAccessToken();
+                        const response = await fetch(
+                            `https://api-m.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${accessToken}`
+                                },
+                                body: JSON.stringify({})
+                            });
+
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+
+                        const data = await response.json();
+                        console.log('Order captured successfully:', data);
+                        // Gestisci la logica di successo qui
+                    } catch (error) {
+                        console.error('Error capturing order:', error);
+                        alert('There was an error processing your payment. Please try again.');
+                    }
                 }
             }).render('#paypal-button-container');
 
