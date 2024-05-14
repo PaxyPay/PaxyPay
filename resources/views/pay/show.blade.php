@@ -175,21 +175,20 @@
                                     },
                                     body: JSON.stringify(
                                         {
-                                            orderID: data.orderID
+                                            orderID: data.orderID,
+                                            paymentId : {{$payment->id}}
                                         }
                                     )
                                 }
                             );
-                        
                         if(response.status == 200){
                             const payloadResponse = await response.json();
                             
                             if(payloadResponse.status == "COMPLETED"){
                                 isCompleted = true;
-                                alert('Pagamento pagato con successo da ' + payloadResponse.payer.name.given_name);
+                               
                             }
                         }
-
                     }catch(e){
                         console.log(e);
                     }finally{
@@ -199,9 +198,7 @@
                         }else{
                             // Non completato
                         }
-
                     }
-
                 },
                 onError: function(err) {
                     console.error('An error occurred:', err);
