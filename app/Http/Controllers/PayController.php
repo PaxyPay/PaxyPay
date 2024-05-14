@@ -157,9 +157,11 @@ class PayController extends Controller
     }
     public function success(Request $request)
     {
-  
-        $paymentId = $request->session()->get('payment_id');
-        $payment = Payment::find($paymentId);
+        if($request->session()->has('payment_id')){
+            $paymentId = $request->session()->get('payment_id');
+            $payment = Payment::find($paymentId);
+        }
+        
 
         if ($paymentId) {
             $payment = Payment::find($paymentId);
@@ -209,18 +211,5 @@ class PayController extends Controller
 
        
     }
-
-    // public function createPayPalOrder(Request $request)
-    // {
-    //     // Logica per creare un nuovo ordine di pagamento PayPal
-    //     // Utilizza l'API di PayPal per creare un nuovo ordine di pagamento
-    //     // Restituisci l'URL di approvazione PayPal
-
-    //     // Esempio di implementazione di base per scopi illustrativi
-    //     $paymentId = $request->input('payment_id');
-    //     $approvalUrl = 'https://www.paypal.com/checkout';
-
-    //     return response()->json(['approval_url' => $approvalUrl]);
-    // }
 
 }
