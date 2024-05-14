@@ -173,7 +173,6 @@
                     alert('Transaction completed')
                 }
             }).render('#paypal-button-container');
-
         });
     </script>
 
