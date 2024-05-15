@@ -1,6 +1,8 @@
 @extends('layouts.client')
 @section('content')
 
+    <!--Modifica francesco-->
+
     <div class="background background1 visible"></div>
     <div class="background background2"></div>
     <div class="container mt-5 p-4 max-container">
