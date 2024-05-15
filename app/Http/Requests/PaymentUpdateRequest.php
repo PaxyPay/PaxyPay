@@ -29,10 +29,24 @@ class PaymentUpdateRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'products.*.product_name' => 'nullable|max:255|string',
             'products.*.quantity' => 'required|integer|min:1',
-            'products.*.product_price' => 'required|numeric|min:0',
+            'products.*.product_price' => 'required|numeric',
             'due_date' => 'nullable|date',
             'active' => 'nullable',
             'product_id.*' => 'required|exists:carts,id',
         ];
+    }
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $totalPrice = 0;
+
+            foreach ($this->input('products') as $product) {
+                $totalPrice += $product['quantity'] * $product['product_price'];
+            }
+
+            if ($totalPrice < 0) {
+                $validator->errors()->add('total_price', __('messages.prezzo_totale_negativo'));
+            }
+        });
     }
 }
