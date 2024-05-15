@@ -4,6 +4,14 @@
     <div class="background background2"></div>
 
     <div class="container mt-5 p-4 max-container">
+        <div class="row">
+            <form id="languageForm" action="{{ route('changeLanguage') }}" method="POST">
+                @csrf
+                <select name="locale" onchange="this.form.submit()" class="form-select">
+                    <option value="it" {{ session('locale', 'it') === 'it' ? 'selected' : '' }}>Italian</option>
+                    <option value="en" {{ session('locale', 'it') === 'en' ? 'selected' : '' }}>English</option>
+                </select>
+            </form>
         <div class="row p-md-5 p-2 glass">
             @if (
                 $payment &&
@@ -19,14 +27,14 @@
                     @endif
                 </div>
                 <div>
-                    <span>{{ $user->name }} sta richiedendo questo pagamento</span>
+                    <span>{{ $user->name }} {{__('messages.sta_richiedendo_questo_pagamento')}}</span>
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola">
                     <span>{{ $payment->description }}</span>
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola">
                     <span>
-                        Data di scadenza:
+                        {{__('messages.data_scadenza')}}:
                         <span class="fw-bold">
                             {{ isset($payment->due_date) ? \Carbon\Carbon::parse($payment->due_date)->format('d/m/Y') : '∞' }}
                         </span>
@@ -36,8 +44,8 @@
                     <table class="table no-border">
                         <thead>
                             <tr class="bg-viola">
-                                <th class="bg-viola">Descrizione prodotto/servizio</th>
-                                <th class="d-flex bg-viola justify-content-end no-border">Prezzo €</th>
+                                <th class="bg-viola">   {{__('messages.descrizione prodotto/servizio')}}</th>
+                                <th class="d-flex bg-viola justify-content-end no-border">  {{__('messages.prezzo')}} €</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,7 +56,7 @@
                                             {{ $product->quantity }} x <span
                                                 class="fw-bold">{{ $product->product_name }}</span>
                                         </div>
-                                        <div class="fs-10">unity price : <span
+                                        <div class="fs-10">{{__('messages.prezzo_unitario')}} : <span
                                                 class="fw-bold">{{ number_format($product->product_price, 2, ',', '.') }}</span>
                                         </div>
                                     </td>
@@ -61,13 +69,14 @@
                     </table>
                 </div>
                 <div class="card d-flex justify-content-between flex-row px-4 py-2 bg-purple">
-                    <span>Totale €: </span>
-                    <span class="fw-bold">{{ $payment->total_price }}</span>
+                    <span>{{__('messages.totale')}} €: </span>
+                    <span class="fw-bold">{{ number_format($payment->total_price) }}</span>
                 </div>
                 <div>
                     <input class="form-check-input" type="checkbox" role="switch" id="stripeCheckbox" value="1"
                         name="police" required>
-                    <label for="">Accetto le policy d'uso e privacy (click per info)</label>
+                    <label for="">{{__('messages.privacy')}}</label>
+                    
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="m-3 d-flex justify-content-center flex-column align-items-center">
@@ -77,13 +86,13 @@
                             <div class="mt-2"></div>
                             @if ($settings['payMethods']['stripe']['active'] == 0)
                             @else
-                                <button class="btn btn-success m-2" type="submit">Paga con Carta</button>
+                                <button class="btn btn-success m-2" type="submit">{{__('messages.paga_con_carta')}}</button>
                             @endif
                         </form>
                         <div class="mt-2" id="paypal-button-container"></div>
                         @if ($settings['payMethods']['stripe']['active'] == 0 && $settings['payMethods']['paypal']['active'] == 0)
                             <div>
-                                <span class="btn btn-danger ">NESSUN METODO DI PAGAMENTO DISPONIBILE</span>
+                                <span class="btn btn-danger ">{{__('messages.nessun_metodo_di_pagamento')}}</span>
                             </div>
                         @endif
                     </div>
@@ -93,7 +102,7 @@
                     <img class="logo-pay" src="http://192.168.1.8:8000/immagine.png" alt="">
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola d-flex justify-content-center align-items-center">
-                    <span>!! Attenzione Pagamento Non Presente !!</span>
+                    <span>!! {{__('messages.pagamento_non_presente')}} !!</span>
                 </div>
             @endif
         </div>

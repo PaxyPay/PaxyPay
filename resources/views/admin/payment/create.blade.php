@@ -44,6 +44,12 @@
                             </ul>
                         </div>
                         @endif
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
                         <div class="mt-4">
                             <div id="productSections">
                                 <!-- Qui verranno aggiunte dinamicamente le sezioni di aggiunta prodotti -->
@@ -53,13 +59,13 @@
                                                 class="fas fa-times-circle"></i></button>
 
                                         <div class="align-items-center row justify-content-between">
-                                            <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
+                                            <div class="col-md-9 justify-content-between d-md-block d-flex p-3">
                                                 <label for="product_name" class="form-label name mx-2">{{ __('messages.nome') }}</label>
                                                 <input type="text" class="form-control refresh"
                                                     name="products[0][product_name]"
                                                     value="{{ old('products.0.product_name') }}">
                                             </div>
-                                            <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
+                                            <div class="col-md-1 justify-content-between d-md-block d-flex p-3">
                                                 <label for="quantity" class="form-label  mx-2">{{ __('messages.quantita') }}</label>
                                                 <select type="number" class="form-control refresh quantity "
                                                     name="products[0][quantity]" id="quantity_select">
@@ -69,10 +75,10 @@
                                                 </select>
                                             </div>
                                             <div
-                                                class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
+                                                class="col-md-2 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                                 <label for="product_price" class="form-label mx-2">{{ __('messages.prezzo') }} : &euro;</label>
                                                 <input type="number" class="form-control refresh price control" step="0.01"
-                                                    min="1" name="products[0][product_price]"
+                                                     name="products[0][product_price]"
                                                     onchange="updateTotalPrice()"
                                                     value="{{ old('products.0.product_price') }})">
                                             </div>
@@ -179,12 +185,12 @@
                     <div class="mb-3 pt-5">
                         <button type="button" class="removeProductBtn delete-product btn btn-danger"><i class="fas fa-times-circle"></i></button>
                         <div class="align-items-center row justify-content-between">
-                            <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
+                            <div class="col-md-9 justify-content-between d-md-block d-flex p-3">
                                 <label for="product_name" class="form-label ">{{ __('messages.nome') }}</label>
                                 <input type="text" class="form-control refresh" name="products[${index}][product_name]"
                                     value="{{ old('products.${index}.product_name') }}">
                             </div>
-                            <div class="col-md-4 justify-content-between d-md-block d-flex p-3">
+                            <div class="col-md-1 justify-content-between d-md-block d-flex p-3">
                                 <label for="quantity" class="form-label ">{{ __('messages.quantita') }}</label>
                                 <select type="number" class="form-control refresh quantity" name="products[${index}][quantity]">
                                     @for ($j = 1; $j <= 100; $j++)
@@ -192,7 +198,7 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
+                            <div class="col-md-2 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                 <label for="product_price" class="form-label">{{ __('messages.prezzo') }} : &euro;</label>
                                 <input type="number" class="form-control refresh price control" step="0.01"
                                     name="products[${index}][product_price]" onchange="updateTotalPrice()"
