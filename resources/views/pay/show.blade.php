@@ -202,8 +202,14 @@
 }
     </style>
 
+<<<<<<< HEAD
 <script src="https://www.paypal.com/sdk/js?client-id=ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE&currency=EUR&disable-funding=card,bancontact,eps,giropay,ideal,mybank,p24,sepa,sofort,venmo"></script>
 
+=======
+    <script
+    src="https://www.paypal.com/sdk/js?client-id=ARJ0V5nK822d1uryQ-Ox70cDXlOwJHVItyABiAkUddkMWnlZ4C04BvIHiPkc_UddkASQGhEmYOpSauwE&currency=EUR">
+    </script>
+>>>>>>> fe8a13e8cd5432729e4916980a863e94f78cd2a2
 
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
