@@ -231,8 +231,8 @@
                         },
                         body: JSON.stringify({
                             cart: [{
-                                sku: "",
-                                quantity: "",
+                                sku: "10",
+                                quantity: "1",
                                 amount : "{{$payment->total_price}}"
                             }]
                         })
