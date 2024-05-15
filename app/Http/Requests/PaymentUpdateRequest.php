@@ -29,7 +29,7 @@ class PaymentUpdateRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'products.*.product_name' => 'nullable|max:255|string',
             'products.*.quantity' => 'required|integer|min:1',
-            'products.*.product_price' => 'required|numeric|min:0',
+            'products.*.product_price' => 'required|numeric',
             'due_date' => 'nullable|date',
             'active' => 'nullable',
             'product_id.*' => 'required|exists:carts,id',

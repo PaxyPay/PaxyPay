@@ -113,7 +113,7 @@
                                                 </div>
                                                 <div class="col-md-4 justify-content-between  d-flex flex-md-column p-3 align-items-end">
                                                     <label for="product_price" class="form-label mx-2">{{ __('messages.prezzo') }} : &euro;</label>
-                                                    <input type="number" class="form-control refresh price control" step="0.01" min="1"
+                                                    <input type="number" class="form-control refresh price control" step="0.01"
                                                         name="products[{{ $i }}][product_price]"
                                                         onchange="updateTotalPrice()"
                                                         value="{{ old('product_price[]', $product->product_price) }}">
