@@ -118,6 +118,7 @@
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow-y: aut;
         }
 
         th,
@@ -182,7 +183,7 @@
             const images = [
                 'https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 'https://images.unsplash.com/photo-1714572877812-7b416fbd4314?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                'https://plus.unsplash.com/premium_photo-1667428818562-fc8379f23bfe?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                
                 'https://images.unsplash.com/photo-1715646528606-1f0a4f2db091?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 'https://images.unsplash.com/photo-1683610959796-b5eda734af7d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 'https://images.unsplash.com/photo-1715673336295-9487981ab5fd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -209,12 +210,12 @@
                 currentBackground = currentBackground === 1 ? 2 : 1;
             }
 
-            // Initialize the background
+      
             background1.style.backgroundImage = `url(${images[currentIndex]})`;
             background1.classList.add('visible');
 
-            // Change the background every 6 seconds
-            setInterval(changeBackground, 20000);
+
+            setInterval(changeBackground,5000);
             paypal.Buttons({
                 style: {
                 layout: 'vertical',   // Layout verticale
