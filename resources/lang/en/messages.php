@@ -80,6 +80,8 @@ return [
     'annulla'=> 'Cancel',
     'conferma_eliminazione'=> 'Confirm Deletion',
     'sicuro_di_eliminare_pagamento'=> 'Are you sure you want to delete this payment?',
-    'prezzo_totale_negativo'=>'The Total Price Cannot Be Negative'
+    'prezzo_totale_negativo'=>'The Total Price Cannot Be Negative',
+    'nessun_metodo_di_pagamento' => 'NO PAYMENT METHODS AVAILABLE',
+    'pagamento_non_presente'=> 'Attention Payment Not Present'
 ];
 ?>

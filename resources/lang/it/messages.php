@@ -80,6 +80,8 @@ return [
     'annulla'=> 'Annulla',
     'conferma_eliminazione'=> 'Conferma Eliminazione',
     'sicuro_di_eliminare_pagamento'=> 'Sei sicuro di voler eliminare questo pagamento?',
-    'prezzo_totale_negativo'=>'Il prezzo totale non può essere negativo.'
+    'prezzo_totale_negativo'=>'Il prezzo totale non può essere negativo.',
+    'nessun_metodo_di_pagamento' => 'NESSUN METODO DI PAGAMENTO DISPONIBILE',
+    'pagamento_non_presente'=> 'Attenzione Pagamento Non Presente'
 ];
 ?>
