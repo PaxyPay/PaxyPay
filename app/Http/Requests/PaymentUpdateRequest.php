@@ -35,4 +35,18 @@ class PaymentUpdateRequest extends FormRequest
             'product_id.*' => 'required|exists:carts,id',
         ];
     }
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $totalPrice = 0;
+
+            foreach ($this->input('products') as $product) {
+                $totalPrice += $product['quantity'] * $product['product_price'];
+            }
+
+            if ($totalPrice < 0) {
+                $validator->errors()->add('total_price', __('messages.prezzo_totale_negativo'));
+            }
+        });
+    }
 }

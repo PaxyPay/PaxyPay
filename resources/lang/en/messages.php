@@ -79,6 +79,7 @@ return [
     'messaggio_invio_link'=> 'We have emailed your password reset link.',
     'annulla'=> 'Cancel',
     'conferma_eliminazione'=> 'Confirm Deletion',
-    'sicuro_di_eliminare_pagamento'=> 'Are you sure you want to delete this payment?'
+    'sicuro_di_eliminare_pagamento'=> 'Are you sure you want to delete this payment?',
+    'prezzo_totale_negativo'=>'The Total Price Cannot Be Negative'
 ];
 ?>

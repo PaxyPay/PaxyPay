@@ -79,6 +79,7 @@ return [
     'messaggio_invio_link'=> 'Ti abbiamo inviato via email il link per la reimpostazione della password.',
     'annulla'=> 'Annulla',
     'conferma_eliminazione'=> 'Conferma Eliminazione',
-    'sicuro_di_eliminare_pagamento'=> 'Sei sicuro di voler eliminare questo pagamento?'
+    'sicuro_di_eliminare_pagamento'=> 'Sei sicuro di voler eliminare questo pagamento?',
+    'prezzo_totale_negativo'=>'Il prezzo totale non può essere negativo.'
 ];
 ?>

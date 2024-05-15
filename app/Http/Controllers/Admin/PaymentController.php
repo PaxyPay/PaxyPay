@@ -145,7 +145,11 @@ class PaymentController extends Controller
     
             $payment->products()->save($product);
         }
-    
+            // Controllo se il prezzo totale è negativo
+        // if ($totalPrice < 0) {
+        //     $payment->delete(); // Cancello il pagamento appena creato
+        //     return back()->with('error', 'Il prezzo totale non può essere negativo.');
+        // }
         $payment->total_price = $totalPrice;
         $payment->save();
     
