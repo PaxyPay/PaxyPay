@@ -70,6 +70,7 @@ return [
     'crea'=> 'Crea',
     'indietro'=> 'Indietro',
     'aggiungi_prodotto' => 'Aggiungi Prodotto',
+    'descrizione prodotto/servizio' => 'descrizione prodotto/servizio',
     'carrello'=>'Carrello',
     'pagina_corrente'=> 'Pagina Corrente',
     'indirizzo_email'=> 'Indirizzo Email',
