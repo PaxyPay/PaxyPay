@@ -125,6 +125,7 @@ class PaymentController extends Controller
             'description' => $data['description'],
             'due_date' => $data['due_date'],
             'total_price' => 0,
+            'views' => 0,
             'token' => uniqid(), // Genera un token unico
             'paid' => false,
             'active' => isset($data['active']) ? true : false,

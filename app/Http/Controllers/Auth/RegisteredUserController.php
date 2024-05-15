@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
            
         ]);
-        $settings = '{"perPage" : "10", "orderBy" : "created_at", "orderFor" : "desc", "payMethods" : [{"method" : "stripe", "publickey" : "", "privateKey" : "", "active" : "0"}]}';
+        $settings = '{"perPage":"10","orderBy":"created_at","orderFor":"DESC","payMethods":{"paypal":{"client_id":"","secret_key":"","active":"0"},"stripe":{"publickey":"","privateKey":"","active":"0"}}}';
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
