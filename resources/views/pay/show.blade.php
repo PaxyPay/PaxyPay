@@ -52,9 +52,13 @@
                 @endif    
                 <div class="card p-3 shadow my-2 bg-viola">
                     @if ($user->image)
+                    <div class="d-flex justify-content-center">
                         <img class="logo-pay" src="{{ $user->image }}" alt="Immagine del profilo">
+                    </div>
                     @else
+                    <div class="d-flex justify-content-center">
                         <img class="logo-pay" src="{{ env('APP_URL') }}/paxy-pay-logo.png" alt="">
+                    </div>    
                     @endif
              
               
