@@ -230,7 +230,11 @@
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            amount : "{{$payment->total_price}}"
+                            cart: [{
+                                sku: "",
+                                quantity: "",
+                                amount : "{{$payment->total_price}}"
+                            }]
                         })
                     });
                     const order = await response.json();
