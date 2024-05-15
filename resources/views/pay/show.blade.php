@@ -76,7 +76,7 @@
                     <input class="form-check-input" type="checkbox" role="switch" id="stripeCheckbox" value="1"
                         name="police" required>
                     <label for="">{{__('messages.privacy')}}</label>
-                    <label for="">Accetto le policy d'uso e privacy (click per info)</label>
+                    
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="m-3 d-flex justify-content-center flex-column align-items-center">
