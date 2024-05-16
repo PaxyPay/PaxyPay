@@ -82,6 +82,8 @@ return [
     'sicuro_di_eliminare_pagamento'=> 'Are you sure you want to delete this payment?',
     'prezzo_totale_negativo'=>'The Total Price Cannot Be Negative',
     'nessun_metodo_di_pagamento' => 'NO PAYMENT METHODS AVAILABLE',
-    'pagamento_non_presente'=> 'Attention Payment Not Present'
+    'pagamento_non_presente'=> 'Attention Payment Not Present',
+    'termini_condizioni'=> 'You Must Accept Terms and Conditions.',
+    'link_disponibile' => 'This Link Will Be Available Until'
 ];
 ?>

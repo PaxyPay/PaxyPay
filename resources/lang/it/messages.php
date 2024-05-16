@@ -83,6 +83,9 @@ return [
     'sicuro_di_eliminare_pagamento'=> 'Sei sicuro di voler eliminare questo pagamento?',
     'prezzo_totale_negativo'=>'Il prezzo totale non può essere negativo.',
     'nessun_metodo_di_pagamento' => 'NESSUN METODO DI PAGAMENTO DISPONIBILE',
-    'pagamento_non_presente'=> 'Attenzione Pagamento Non Presente'
+    'pagamento_non_presente'=> 'Attenzione Pagamento Non Presente',
+    'termini_condizioni'=> 'Devi accettare i termini e le condizioni.',
+    'link_disponibile' => 'Questo Link Sarà Disponibile Fino al '
+    
 ];
 ?>
