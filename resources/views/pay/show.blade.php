@@ -42,9 +42,9 @@
                     $payment->status != 'paid' &&
                     (!$payment->due_date || $payment->due_date >= \Carbon\Carbon::now()))
                 @if ($payment->due_date)
-                    <div class="bg_red card p-3 shadow my-2 ">
+                    <div class="bg_red card p-3 shadow my-2 text-danger">
                         <span>
-                            {{ __('messages.data_scadenza') }}:
+                            {{ __('messages.link_disponibile') }}:
                             <span class="fw-bold">
                                 {{ isset($payment->due_date) ? \Carbon\Carbon::parse($payment->due_date)->format('d/m/Y') : '∞' }}
                             </span>
@@ -99,29 +99,40 @@
                 </div>
                 <div class="card d-flex justify-content-between flex-row px-4 py-2 bg-white fs-2">
                     <span>{{ __('messages.totale') }} €: </span>
-                    <span class="fw-bold">{{ number_format($payment->total_price) }}</span>
+                    <span class="fw-bold">{{ number_format($payment->total_price,2,',','.') }}</span>
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola ">
                     <div class="d-flex gap-2">
-                        <input class="form-check-input col-2" type="checkbox" role="switch" id="stripeCheckbox"
-                            value="1" name="police" required>
+                        {{-- <input class="form-check-input col-2" type="checkbox" role="switch" id="stripeCheckbox"
+                        value="1" name="police" required> --}}
+                        <input class="form-check-input col-2" type="checkbox" role="switch" id="terms" value="1"
+                            name="police" required>
                         <label for="" class="col-10">{{ __('messages.privacy') }}</label>
                     </div>
-
+                    
                 </div>
+                <div class="text-danger bg_red card p-3 shadow my-2" id="termsError" style="display: none;">
+                  {{__('messages.termini_condizioni')}}
+                </div>
+                   
+               
                 <div class="d-flex justify-content-center">
                     <div class="m-3 d-flex justify-content-center flex-column align-items-center">
-                        <form action="{{ route('pay.stripe', $payment->id) }}" method="POST"
-                            onsubmit="return checkStripeCheckbox()">
+                        <form id="formPayment" action="{{ route('pay.stripe', $payment->id) }}" method="POST">
+                            {{-- onsubmit="return checkStripeCheckbox()" --}}
                             @csrf
                             <div class="mt-2"></div>
                             @if ($settings['payMethods']['stripe']['active'] == 0)
                             @else
-                                <button class="btn btn-success m-2"
-                                    type="submit">{{ __('messages.paga_con_carta') }}</button>
+                                <button class="btn btn-success m-2" type="submit"
+                                    id="payButton">{{ __('messages.paga_con_carta') }}</button>
                             @endif
                         </form>
-                        <div class="mt-2" id="paypal-button-container"></div>
+
+                        @if ($settings['payMethods']['paypal']['active'] == 1)
+                            <div class="mt-2 formPaymentPaypal" id="paypal-button-container"></div>
+                        @endif
+
                         @if ($settings['payMethods']['stripe']['active'] == 0 && $settings['payMethods']['paypal']['active'] == 0)
                             <div>
                                 <span class="btn btn-danger ">{{ __('messages.nessun_metodo_di_pagamento') }}</span>
@@ -129,9 +140,10 @@
                         @endif
                     </div>
                 </div>
+               
             @else
-                <div class="d-flex justify-content-center align-items-center">
-                    <img class="logo-pay" src="http://192.168.1.8:8000/immagine.png" alt="">
+                <div class="card p-3 shadow my-2 d-flex justify-content-center align-items-center">
+                    <img class="logo-pay" src="{{ env('APP_URL') }}/paxy-pay-logo.png" alt="">
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola d-flex justify-content-center align-items-center">
                     <span>!! {{ __('messages.pagamento_non_presente') }} !!</span>
@@ -184,13 +196,15 @@
                 overflow-y: scroll;
                 max-height: 750px;
                 margin-bottom: 100px;
-                padding-top: 20px; /* Aggiunge uno spazio sopra il contenuto */
+                padding-top: 20px;
+                /* Aggiunge uno spazio sopra il contenuto */
             }
 
             /* Nasconde la barra di scorrimento su Chrome/Safari */
             .glass::-webkit-scrollbar {
                 width: 4px;
-                margin-top: 20px; /* Aggiunge uno spazio sopra la barra di scorrimento */
+                margin-top: 20px;
+                /* Aggiunge uno spazio sopra la barra di scorrimento */
             }
 
             /* Stile della barra di scorrimento su Chrome/Safari */
@@ -206,7 +220,7 @@
             }
 
             /* Nasconde la barra di scorrimento su Firefox */
-        
+
 
             /* Stile della barra di scorrimento su Firefox */
             .glass::-webkit-scrollbar {
@@ -221,10 +235,10 @@
             }
 
             /* table td {
-                border-bottom-width: 0; !important
-                box-shadow: none; !important
+                                border-bottom-width: 0; !important
+                                box-shadow: none; !important
 
-            } */
+                            } */
             th,
             td,
             tr {
@@ -238,8 +252,8 @@
             }
 
             /* body {
-                                background-image: url('https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-                            } */
+                                                background-image: url('https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+                                            } */
 
             body,
             html {
@@ -252,12 +266,12 @@
 
             .background {
                 /* position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center; */
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background-size: cover;
+                            background-position: center; */
                 opacity: 0;
                 transition: opacity 1.5s ease-in-out;
                 z-index: 0;
@@ -341,6 +355,12 @@
                     },
 
                     async createOrder() {
+                        var termsCheckbox = document.getElementById('terms');
+                        var termsError = document.getElementById('termsError');
+                        if (!termsCheckbox.checked) {
+                            termsError.style.display = 'block';
+                            return;
+                        }
                         const response = await fetch('https://webservice.paxypay.com/api/createOrder', {
                             method: "POST",
                             headers: {
@@ -401,14 +421,44 @@
                     },
                     onError: function(err) {
                         console.error('An error occurred:', err);
-                        alert('An error occurred during the transaction. Please try again.');
+                        // alert('An error occurred during the transaction. Please try again.');
                     },
+
 
                 }).render('#paypal-button-container');
             });
         </script>
 
         <script>
+            // logica terms 
+            document.getElementById('terms').addEventListener('change', function() {
+                var payButton = document.getElementById('payButton');
+                var termsError = document.getElementById('termsError');
+                if (this.checked) {
+                    // payButton.removeAttribute('disabled');
+                    termsError.style.display = 'none';
+                } else {
+                    // payButton.setAttribute('disabled', true);
+                    termsError.style.display = 'block';
+                }
+            });
+            document.getElementById('formPayment').addEventListener('submit', function(event) {
+                var termsCheckbox = document.getElementById('terms');
+                var termsError = document.getElementById('termsError');
+                if (!termsCheckbox.checked) {
+                    event.preventDefault(); // Impedisce l'invio del modulo
+                    termsError.style.display = 'block';
+                }
+            });
+            // document.querySelector('.formPaymentPaypal .paypal-button').addEventListener('submit', function(event) {
+            //     var termsCheckbox = document.getElementById('terms');
+            //     var termsError = document.getElementById('termsError');
+            //     if (!termsCheckbox.checked) {
+            //         event.preventDefault(); // Impedisce l'invio del modulo
+            //         termsError.style.display = 'block';
+            //     }
+            // });
+            // fine logica terms
             function checkStripeCheckbox() {
                 var checkbox = document.getElementById('stripeCheckbox');
                 if (checkbox.checked) {
