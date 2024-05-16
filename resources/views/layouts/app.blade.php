@@ -27,105 +27,91 @@
 
 <body>
     <div id="app">
-        <main role="main" class="">
-            <div class="loading-overlay">
-                <div class="loading-spinner"></div>
-            </div>
-            <div class="container-fluid p-0 m-0">
-                <div class="row">
-                    <div class="col-12 p-0 m-0 z-0 flex-row d-flex">
-                       <x-aside >
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                    <img src="{{ env('APP_URL') }}/paxy-pay-logo.png" alt="" class="logo">
+                    {{-- <h1>Proxy</h1> --}}
+                    {{-- config('app.name', 'Laravel') --}}
+                </a>
 
-                       </x-aside>
-                        <div class="row">
-                            <div class="col-12">
-                                <nav class="navbar navbar-expand-md navbar-light white">
-                                    <div class="container d-flex">
-                                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#navbarSupportedContent"
-                                            aria-controls="navbarSupportedContent" aria-expanded="false"
-                                            aria-label="Toggle navigation">
-                                            <span class="navbar-toggler-icon"></span>
-                                        </button>
-                                        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                                            <ul class="navbar-nav ml-auto">
-                                                <!-- Authentication Links -->
-                                                @guest
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ route('login') }}">{{ __('messages.accedi') }}</a>
-                                                    </li>
-                                                    @if (Route::has('register'))
-                                                        <li class="nav-item">
-                                                            <a class="nav-link"
-                                                                href="{{ route('register') }}">{{ __('messages.registrati') }}</a>
-                                                        </li>
-                                                    @endif
-                                                @else
-                                                    <li class="nav-item dropdown">
-                                                        <a id="navbarDropdown" class="nav-link dropdown-toggle"
-                                                            href="#" role="button" data-bs-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false" v-pre>
-                                                            <i class="fa-solid fa-user"></i>
-                                                        </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                                                        <div class="dropdown-menu dropdown-menu-right"
-                                                            aria-labelledby="navbarDropdown">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
+                        {{-- <li class="nav-item">
+                            <a class="nav-link" href="{{url('/') }}">{{ __('Home') }}</a>
+                        </li> --}}
+                    </ul>
+                    <form id="languageForm" action="{{ route('changeLanguage') }}" method="POST">
+                        @csrf
+                        <select name="locale" onchange="this.form.submit()" class="form-select">
+                            <option value="it" {{ session('locale', 'it') === 'it' ? 'selected' : '' }}>Italian</option>
+                            <option value="en" {{ session('locale', 'it') === 'en' ? 'selected' : '' }}>English</option>
+                        </select>
+                    </form>
+              
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('messages.accedi') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('messages.registrati') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
 
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin.payment.index') }}">{{ __('messages.pagamenti') }}</a>
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('profile.settings') }}">{{ __('messages.settaggi') }}</a>
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('profile') }}">{{ __('messages.profilo') }}</a>
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('profile/dashboard') }}">{{ __('messages.statistiche') }}</a>
-                                                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                                                onclick="event.preventDefault();
-                                                                         document.getElementById('logout-form').submit();">
-                                                                {{ __('messages.esci') }}
-                                                            </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                                            <form id="logout-form" action="{{ route('logout') }}"
-                                                                method="POST" class="d-none">
-                                                                @csrf
-                                                            </form>
-                                                        </div>
-                                                    </li>
-                                                @endguest
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="col-12">
-                                @yield('content')
-                            </div>
-                        </div>
-                    </div>
+                                    <a class="dropdown-item"
+                                        href="{{ route('admin.payment.index') }}">{{ __('messages.pagamenti') }}</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('profile.settings') }}">{{ __('messages.settaggi') }}</a>
+                                    <a class="dropdown-item" href="{{ url('profile') }}">{{ __('messages.profilo') }}</a>
+                                    <a class="dropdown-item"
+                                        href="{{ url('profile/dashboard') }}">{{ __('messages.statistiche') }}</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('messages.esci') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
                 </div>
             </div>
+        </nav>
+
+        <main role="main" class="">
+            @yield('content')
         </main>
+
     </div>
 </body>
 
 </html>
-
-<style>
-    body {
-        overflow-x: hidden;
-    }
-
-    aside {
-        background-color: white;
-        height: 100%;
-        width: 500px;
-    }
-
-    .white {
-        background-color: white;
-    }
-</style>
 
 <script>
     baseurl = {{ env('APP_URL') }};
