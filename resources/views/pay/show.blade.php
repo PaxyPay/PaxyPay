@@ -409,7 +409,7 @@
                                                 })
                                             }
                                         );
-                                    window.location.href = '/success';
+                                    // window.location.href = '/success';
                                 }
                             } else if (response.status == 500) {
                                 const payloadResponse = await response.json();
