@@ -99,7 +99,7 @@
                 </div>
                 <div class="card d-flex justify-content-between flex-row px-4 py-2 bg-white fs-2">
                     <span>{{ __('messages.totale') }} €: </span>
-                    <span class="fw-bold">{{ number_format($payment->total_price,2,',','.') }}</span>
+                    <span class="fw-bold">{{ number_format($payment->total_price, 2, ',', '.') }}</span>
                 </div>
                 <div class="card p-3 shadow my-2 bg-viola ">
                     <div class="d-flex gap-2">
@@ -109,13 +109,13 @@
                             name="police" required>
                         <label for="" class="col-10">{{ __('messages.privacy') }}</label>
                     </div>
-                    
+
                 </div>
                 <div class="text-danger bg_red card p-3 shadow my-2" id="termsError" style="display: none;">
-                  {{__('messages.termini_condizioni')}}
+                    {{ __('messages.termini_condizioni') }}
                 </div>
-                   
-               
+
+
                 <div class="d-flex justify-content-center">
                     <div class="m-3 d-flex justify-content-center flex-column align-items-center">
                         <form id="formPayment" action="{{ route('pay.stripe', $payment->id) }}" method="POST">
@@ -140,7 +140,6 @@
                         @endif
                     </div>
                 </div>
-               
             @else
                 <div class="card p-3 shadow my-2 d-flex justify-content-center align-items-center">
                     <img class="logo-pay" src="{{ env('APP_URL') }}/paxy-pay-logo.png" alt="">
@@ -235,10 +234,10 @@
             }
 
             /* table td {
-                                border-bottom-width: 0; !important
-                                box-shadow: none; !important
+                                        border-bottom-width: 0; !important
+                                        box-shadow: none; !important
 
-                            } */
+                                    } */
             th,
             td,
             tr {
@@ -252,8 +251,8 @@
             }
 
             /* body {
-                                                background-image: url('https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-                                            } */
+                                                        background-image: url('https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+                                                    } */
 
             body,
             html {
@@ -266,12 +265,12 @@
 
             .background {
                 /* position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            background-size: cover;
-                            background-position: center; */
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-size: cover;
+                                    background-position: center; */
                 opacity: 0;
                 transition: opacity 1.5s ease-in-out;
                 z-index: 0;
@@ -313,7 +312,6 @@
                 const images = [
                     'https://images.unsplash.com/photo-1545579133-99bb5ab189bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                     'https://images.unsplash.com/photo-1714572877812-7b416fbd4314?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-
                     'https://images.unsplash.com/photo-1715646528606-1f0a4f2db091?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                     'https://images.unsplash.com/photo-1683610959796-b5eda734af7d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                     'https://images.unsplash.com/photo-1715673336295-9487981ab5fd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -332,19 +330,13 @@
                     currentIndex = (currentIndex + 1) % images.length;
                     const nextBackground = currentBackground === 1 ? background2 : background1;
                     const currentVisible = currentBackground === 1 ? background1 : background2;
-
                     nextBackground.style.backgroundImage = `url(${images[currentIndex]})`;
                     nextBackground.classList.add('visible');
                     currentVisible.classList.remove('visible');
-
                     currentBackground = currentBackground === 1 ? 2 : 1;
                 }
-
-
                 background1.style.backgroundImage = `url(${images[currentIndex]})`;
                 background1.classList.add('visible');
-
-
                 setInterval(changeBackground, 5000);
                 paypal.Buttons({
                     style: {
@@ -353,7 +345,6 @@
                         layout: 'vertical',
                         height: 40,
                     },
-
                     async createOrder() {
                         var termsCheckbox = document.getElementById('terms');
                         var termsError = document.getElementById('termsError');
@@ -398,7 +389,26 @@
                             if (response.status == 200) {
                                 const payloadResponse = await response.json();
                                 if (payloadResponse.status == "COMPLETED") {
-                                    isCompleted = true;
+                                    customer_email = payloadResponse.payer.email_address;
+                                    customer_given_name = payloadResponse.payer.name.given_name;
+                                    customer_surname = payloadResponse.payer.name.surname;
+                                    customer_name = payloadResponse.payer.name.surname + " " + payloadResponse.payer.name.given_name;
+                            
+                                    const response =
+                                        fetch(
+                                            'https://webservice.paxypay.com/api/sendMail', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({
+                                                    paymentId: {{ $payment->id }},
+                                                    customer_name: customer_name,
+                                                    customer_email: customer_email
+
+                                                })
+                                            }
+                                        );
                                     window.location.href = '/success';
                                 }
                             } else if (response.status == 500) {

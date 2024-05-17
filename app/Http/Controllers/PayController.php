@@ -109,6 +109,7 @@ class PayController extends Controller
     }
     public function success(Request $request)
     {
+
         if ($request->session()->has('payment_id')) {
             $paymentId = $request->session()->get('payment_id');
             $payment = Payment::find($paymentId);
@@ -120,6 +121,7 @@ class PayController extends Controller
 
 
             $settings = json_decode($user->settings, true);
+
             if ($payment->payment_method == 'stripe') {
                 $client = new Client();
                 $settings = json_decode($user->settings, true);
@@ -145,6 +147,7 @@ class PayController extends Controller
                 $payment->customer_email = $customer_email;
                 $payment->customer_name = $customer_name;
                 $payment->save();
+
                 Mail::to($user->email)->send(new PaymentReceived($payment));
             }
             // Rimuovi l'ID del pagamento dalla sessione
