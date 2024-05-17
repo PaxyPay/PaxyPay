@@ -68,9 +68,6 @@
                         @endforeach
                     </div>
                 </div>
-                <div>
-                    <a href="{{ route('admin.payment.edit', $payment->id) }}" class="btn btn-primary">Edit</a>
-                </div>
             </div>
         </div>
     </div>
