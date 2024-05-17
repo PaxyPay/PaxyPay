@@ -248,7 +248,7 @@
 
                                         <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'"
                                             class="d-none d-md-table-cell">
-                                            {{ \Carbon\Carbon::parse($payment->created_at)->format('d/m/Y') }}
+                                            {{ \Carbon\Carbon::parse($payment->created_at) }}
                                         </td>
                                         <td onclick="window.location='{{ route('admin.payment.edit', $payment->id) }}'">
                                             <div class="d-none d-md-block">
