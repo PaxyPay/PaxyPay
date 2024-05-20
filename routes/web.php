@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/profile', [PaymentController::class, 'index']);
+Route::get('/', [PaymentController::class, 'index']);
 // Route::get('/', function () {
 //     return view('welcome');
 // });
