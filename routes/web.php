@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     // Route::get()
 });
 
-Route::middleware('auth','verified')->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
     Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
     Route::post('/profile/stripe', [ProfileController::class, 'stripe'])->name('profile.stripe');
