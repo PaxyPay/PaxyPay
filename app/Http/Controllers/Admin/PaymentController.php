@@ -27,6 +27,9 @@ class PaymentController extends Controller
         if (!$user) {
             return redirect()->route('login');
         }
+        if(!$user->hasVerifiedEmail()){
+            return redirect()->route('verification.notice');
+        }
         $imageData = $user->image;
         $data_encode = $user->settings;
 

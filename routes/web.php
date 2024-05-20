@@ -29,8 +29,10 @@ Route::get('/', [PaymentController::class, 'index']);
 // });
 
 Route::get('/email/verify', function () {
+   
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
+
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -45,16 +47,11 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    // Route::get()
-});
-
-Route::middleware(['auth','verified'])->group(function () {
     Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
     Route::post('/profile/stripe', [ProfileController::class, 'stripe'])->name('profile.stripe');
