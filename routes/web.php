@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get()
 });
 
 Route::middleware('auth','verified')->group(function () {
@@ -60,6 +61,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::post('/profile/paypal', [ProfileController::class, 'paypal'])->name('profile.paypal');
     Route::post('/profile/updateSettings', [ProfileController::class, 'updateSettings'])->name('profile.updateSettings');
 });
+
 Route::middleware(['auth', 'verified'])
     ->name('admin.')
     ->prefix('admin')

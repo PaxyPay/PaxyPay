@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         if ($user->hasVerifiedEmail()) {
             return redirect()->route('admin.payment.index');
         } else {
-            return redirect()->route('verification.notice');
+            return redirect()->view('verification.notice');
         }
     }
     /**
