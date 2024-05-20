@@ -73,18 +73,6 @@
             @enderror
         </div>
 
-        {{-- <div class="mb-2">
-            <label for="company_email">{{ __('Company Email') }}</label>
-            <input class="form-control" type="text" name="company_email" id="company_email"
-                autocomplete="company_email" value="{{ old('company_email', $user->company_email) }}" 
-                autofocus>
-            @error('company_email')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->get('company_email') }}</strong>
-                </span>
-            @enderror
-        </div> --}}
-
         <div class="mb-2">
             <label for="vat_number">{{ __('Vat Number') }}</label>
             <input class="form-control" type="text" name="vat_number" id="vat_number" autocomplete="vat_number"
@@ -95,32 +83,6 @@
                 </span>
             @enderror
         </div>
-       
-
-        <div class="mb-2">
-            <label for="email">
-                {{ __('Email') }}
-            </label>
-
-            <input id="email" name="email" type="email" class="form-control"
-                value="{{ old('email', $user->email) }}"  autocomplete="username" />
-
-            @error('email')
-                <span class="alert alert-danger mt-2" role="alert">
-                    <strong>{{ $errors->get('email') }}</strong>
-                </span>
-            @enderror
-
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>    
-            @endif
-           
    
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div>

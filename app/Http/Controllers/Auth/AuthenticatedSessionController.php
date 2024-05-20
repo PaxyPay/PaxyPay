@@ -32,11 +32,9 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        if ($user->hasVerifiedEmail()) {
-            return redirect()->route('admin.payment.index');
-        } else {
-            return redirect()->route('verification.notice');
-        }
+     
+        return redirect()->route('admin.payment.index');
+       
     }
     /**
      * Destroy an authenticated session.
