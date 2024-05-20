@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [PaymentController::class, 'index']);
+Route::get('/profile', [PaymentController::class, 'index']);
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -48,10 +48,13 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth', 'verify'])->group(function () {
+    Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
     Route::post('/profile/stripe', [ProfileController::class, 'stripe'])->name('profile.stripe');
     Route::post('/profile/paypal', [ProfileController::class, 'paypal'])->name('profile.paypal');
