@@ -53,14 +53,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth','verify')->group(function () {
+Route::middleware('auth','verified')->group(function () {
     Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
     Route::post('/profile/stripe', [ProfileController::class, 'stripe'])->name('profile.stripe');
     Route::post('/profile/paypal', [ProfileController::class, 'paypal'])->name('profile.paypal');
     Route::post('/profile/updateSettings', [ProfileController::class, 'updateSettings'])->name('profile.updateSettings');
 });
-Route::middleware(['auth', 'verify'])
+Route::middleware(['auth', 'verified'])
     ->name('admin.')
     ->prefix('admin')
     ->group(function () {
